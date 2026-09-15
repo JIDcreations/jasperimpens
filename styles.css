@@ -4085,13 +4085,13 @@ html {
 
 /* =========================================================
    HOME ABOUT / PASSION
-   One pinned stage. While it's held, the photo inks through
-   About → About (2) → Passion → Passion (2); the title rolls
-   to Passion halfway. Pin length = --about-scroll.
+   One pinned stage. While it's held, the photo inks from
+   About into Passion; the title rolls to Passion halfway.
+   Pin length = --about-scroll.
 ========================================================= */
 .home-about {
   --about-stage: var(--size--max-screen-height);
-  --about-scroll: 270dvh;
+  --about-scroll: 140dvh;
   --about-muted: rgba(46, 46, 46, 0.32);
   position: relative;
   height: calc(var(--about-stage) + var(--about-scroll));
@@ -4218,7 +4218,7 @@ html {
 
 @media only screen and (max-width: 991px) {
   .home-about {
-    --about-scroll: 220dvh;
+    --about-scroll: 120dvh;
   }
   /* header stays visible below 992px, so the stage starts under it */
   .home-about-stage {

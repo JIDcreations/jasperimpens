@@ -3627,12 +3627,8 @@
           this.section = null;
           this.stage = null;
           this.active = -1;
-          // pinned progress windows for the three ink reveals: About → About 2 → Passion → Passion 2
-          this.inkWindows = [
-            [0.06, 0.3],
-            [0.38, 0.62],
-            [0.7, 0.94],
-          ];
+          // pinned progress window for the single ink reveal: About → Passion
+          this.inkWindows = [[0.15, 0.85]];
         }
         trigger(t) {
           this.el = t.next.container.querySelector(".home-platform-wrap");
@@ -3648,7 +3644,7 @@
           this.measureHeader();
           window.addEventListener("resize", () => this.measureHeader());
           // switch to Passion halfway through the ink into the cycling photo
-          const [from, to] = this.inkWindows[1];
+          const [from, to] = this.inkWindows[0];
           ScrollTrigger.create({
             trigger: this.section,
             start: "top top",
