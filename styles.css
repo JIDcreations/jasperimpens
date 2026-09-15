@@ -2083,7 +2083,7 @@ img {
   padding: 0.6rem 2.2rem;
 }
 .btn-fill:hover {
-  border-color: var(--content--primary);
+  border-color: var(--content--brand);
 }
 .btn-fill:hover:where(.button-outline) {
   color: var(--content--white);
@@ -2094,13 +2094,13 @@ img {
 }
 .btn-fill:hover:where(.button-no-ic) {
   border-top-style: solid;
-  border-top-color: var(--content--primary);
+  border-top-color: var(--content--brand);
   border-right-style: solid;
-  border-right-color: var(--content--primary);
+  border-right-color: var(--content--brand);
   border-bottom-style: solid;
-  border-bottom-color: var(--content--primary);
+  border-bottom-color: var(--content--brand);
   border-left-style: solid;
-  border-left-color: var(--content--primary);
+  border-left-color: var(--content--brand);
   color: var(--content--white);
   border-width: 0;
 }
@@ -2108,7 +2108,7 @@ img {
   color: var(--content--white);
 }
 .btn-fill:hover:where(.button-no-ic-small) {
-  border: var(--size--border) solid var(--content--primary);
+  border: var(--size--border) solid var(--content--brand);
   color: var(--content--white);
 }
 .btn-fill.is-fill-active,
@@ -3794,9 +3794,10 @@ html {
 }
 
 /* Ink hover (y0 in main.js): the bg is a full-size layer holding a clipped, displaced ink shape,
-   and .btn-ink-top is a light copy of the label revealed by the same clip. */
+   and .btn-ink-top is a light copy of the label revealed by the same clip.
+   Every button inks in brand blue. */
 .btn-fill-bg {
-  background: var(--content--primary);
+  background: var(--content--brand);
   pointer-events: none;
 }
 .btn-fill .btn-fill-bg {
@@ -4080,4 +4081,194 @@ html {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* =========================================================
+   HOME ABOUT / PASSION
+   One pinned stage. While it's held, the photo inks through
+   About → About (2) → Passion → Passion (2); the title rolls
+   to Passion halfway. Pin length = --about-scroll.
+========================================================= */
+.home-about {
+  --about-stage: var(--size--max-screen-height);
+  --about-scroll: 270dvh;
+  --about-muted: rgba(46, 46, 46, 0.32);
+  position: relative;
+  height: calc(var(--about-stage) + var(--about-scroll));
+}
+.home-about-anchor {
+  position: absolute;
+  top: calc(var(--about-scroll) * 0.5);
+}
+.home-about-stage {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  height: var(--about-stage);
+}
+
+/* side */
+.home-about-side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 0;
+}
+/* beats .txt.txt-font-mono.txt-12 { align-self: flex-start } */
+.home-about .home-about-side-top.txt,
+.home-about .home-about-caption.txt {
+  align-self: stretch;
+  box-sizing: border-box;
+}
+.home-about-side-top {
+  display: flex;
+  justify-content: space-between;
+  padding: 3.2rem;
+  color: var(--about-muted);
+}
+.home-about-roll {
+  --lh: 1.3em;
+  display: block;
+  overflow: hidden;
+  height: var(--lh);
+  line-height: var(--lh);
+}
+.home-about-roll.is-title {
+  --lh: 0.9em;
+}
+.home-about-roll-inner {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--i, 0) * -1 * var(--lh)));
+  transition: transform 0.9s cubic-bezier(0.625, 0.05, 0, 1);
+}
+.home-about-roll-inner > span {
+  display: block;
+  height: var(--lh);
+}
+.home-about-head {
+  padding: 0 3.2rem 3.2rem;
+}
+.home-about-num {
+  color: var(--content--brand);
+  margin-bottom: 1.6rem;
+}
+.home-about-title {
+  color: var(--content--primary);
+  font-size: 12rem;
+  letter-spacing: -0.03em;
+}
+.home-about-copy {
+  display: grid;
+  position: relative;
+  padding: 3.2rem;
+}
+.home-about-copy-item {
+  grid-area: 1 / 1;
+  max-width: 38ch;
+  color: var(--content--brand);
+  font-size: 1.8rem;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.home-about-copy-item.is-active {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.15s;
+}
+
+/* photo frame */
+.home-about-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  min-height: 0;
+  margin: 0;
+  padding: 3.2rem;
+}
+.home-about-img {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background-color: var(--content--gray);
+}
+.home-about-layer,
+.home-about-layer .ink-mask {
+  position: absolute;
+  inset: 0;
+}
+.home-about-img .layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.home-about-caption {
+  display: flex;
+  justify-content: space-between;
+  color: var(--about-muted);
+}
+
+@media only screen and (max-width: 991px) {
+  .home-about {
+    --about-scroll: 220dvh;
+  }
+  /* header stays visible below 992px, so the stage starts under it */
+  .home-about-stage {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+    padding-top: var(--about-header, 6rem);
+  }
+  .home-about-frame {
+    order: -1;
+    gap: 0.8rem;
+    padding-bottom: 1.6rem;
+  }
+  .home-about-side > .line.line-vertical,
+  .home-about-side-top {
+    display: none;
+  }
+  .home-about-head {
+    padding-bottom: 1.6rem;
+  }
+  .home-about-num {
+    margin-bottom: 0.8rem;
+  }
+  .home-about-title {
+    font-size: 4.8rem;
+  }
+  .home-about-copy {
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .home-about-frame {
+    padding: 1.6rem 1.6rem 1.2rem;
+  }
+  .home-about-head {
+    padding: 0 1.6rem 1.2rem;
+  }
+  .home-about-title {
+    font-size: 4rem;
+  }
+  .home-about-copy {
+    padding: 1.2rem 1.6rem;
+  }
+  .home-about-copy-item {
+    font-size: 1.6rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-about-roll-inner,
+  .home-about-copy-item {
+    transition-duration: 0.01s;
+  }
 }

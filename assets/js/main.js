@@ -2674,7 +2674,9 @@
         });
     }
     class p0 {
-      constructor(x) {
+      // opts.progress: optional () => 0..1 | null to drive the reveal instead of the element's scroll position
+      constructor(x, opts = {}) {
+        this.getProgress = opts.progress || null;
         this.DOM = {
           el: null,
           svg: null,
@@ -2785,7 +2787,8 @@
           return;
         }
         const r = this.start - s;
-        const c = Math.max(0, Math.min(1, r / this.totalTravel));
+        const custom = this.getProgress ? this.getProgress() : null;
+        const c = typeof custom === "number" ? custom : Math.max(0, Math.min(1, r / this.totalTravel));
         if (this.isCircle) {
           const o = this.startVal + (this.endVal - this.startVal) * c;
           this.DOM.mask.setAttribute("r", o);
@@ -3621,88 +3624,79 @@
         constructor() {
           super();
           this.el = null;
-          this.tl = null;
-          this.tlContent = null;
-          this.tlImage = null;
+          this.section = null;
+          this.stage = null;
+          this.active = -1;
+          // pinned progress windows for the three ink reveals: About → About 2 → Passion → Passion 2
+          this.inkWindows = [
+            [0.06, 0.3],
+            [0.38, 0.62],
+            [0.7, 0.94],
+          ];
         }
         trigger(t) {
           this.el = t.next.container.querySelector(".home-platform-wrap");
+          this.section = this.el.querySelector(".home-about");
+          this.stage = this.el.querySelector(".home-about-stage");
           super.setTrigger(this.el, this.onTrigger.bind(this));
         }
         onTrigger() {
           this.animationScrub();
         }
         setup() {
-          if (d.w > 991) {
-            let n = (d.h - $(this.el).find(".home-platform-content-inner").height()) / 2;
-            $(this.el)
-              .find(".home-platform-content-inner")
-              .css("top", n + "px");
+          this.setActive(0);
+          this.measureHeader();
+          window.addEventListener("resize", () => this.measureHeader());
+          // switch to Passion halfway through the ink into the cycling photo
+          const [from, to] = this.inkWindows[1];
+          ScrollTrigger.create({
+            trigger: this.section,
+            start: "top top",
+            end: "bottom bottom",
+            onUpdate: (r) => this.setActive(r.progress >= (from + to) / 2 ? 1 : 0),
+          });
+        }
+        measureHeader() {
+          // below 992px the header never hides, so the pinned stage starts underneath it
+          const header = document.querySelector(".header");
+          const scroller = document.querySelector(".main-inner");
+          if (!header || !scroller) {
+            return;
           }
-          this.tlContent = gsap.timeline({
-            scrollTrigger: {
-              trigger: $(this.el).find(".home-platform-content").get(0),
-              start: "top+=40% bottom",
-              once: true,
-            },
-          });
-          new U({
-            timeline: this.tlContent,
-            tweenArr: [
-              new X({
-                el: $(this.el)
-                  .find(".home-platform-content-inner.active .home-platform-content-number")
-                  .get(0),
-              }),
-              new p({
-                el: $(this.el)
-                  .find(".home-platform-content-inner.active .home-platform-content-title .heading")
-                  .get(0),
-              }),
-              new p({
-                el: $(this.el)
-                  .find(".home-platform-content-inner.active .home-platform-content-sub .txt")
-                  .get(0),
-              }),
-            ],
-          });
-          $(".home-platform-img-item").each((n, s) => {
-            this.tlImage = gsap.timeline({
-              scrollTrigger: {
-                trigger: s,
-                start: "top+=45% bottom",
-                once: true,
-              },
+          const offset = header.getBoundingClientRect().bottom - scroller.getBoundingClientRect().top;
+          this.section.style.setProperty("--about-header", Math.max(0, offset) + "px");
+        }
+        progress() {
+          const scroller = document.querySelector(".main-inner");
+          const rect = this.section.getBoundingClientRect();
+          const span = rect.height - this.stage.offsetHeight;
+          const travelled = scroller.getBoundingClientRect().top - rect.top;
+          return span > 0 ? Math.max(0, Math.min(1, travelled / span)) : 0;
+        }
+        setActive(n) {
+          if (n === this.active) {
+            return;
+          }
+          this.active = n;
+          $(this.el)
+            .find(".home-about-roll-inner")
+            .each((r, c) => c.style.setProperty("--i", n));
+          $(this.el)
+            .find(".home-about-copy-item")
+            .each((r, c) => {
+              c.classList.toggle("is-active", r === n);
+              c.setAttribute("aria-hidden", r !== n);
             });
-          });
         }
         animationScrub() {
           $(this.el)
-            .find(".home-platform-img-item-inner")
-            .each((r, c) => new p0($(c).get(0)));
-          const n = $(this.el).find(".home-platform-content-inner");
-          const s = n.length;
-          this.tl = gsap.timeline({
-            scrollTrigger: {
-              trigger: $(this.el).find(".home-platform-content").get(0),
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              onUpdate: (r) => {
-                const o = r.progress;
-                const f = 1 / s;
-                n.each((l, u) => {
-                  const h = l * f;
-                  const b = (l + 1) * f;
-                  if (o >= h && o < b) {
-                    $(u).addClass("active");
-                  } else {
-                    $(u).removeClass("active");
-                  }
-                });
-              },
-            },
-          });
+            .find(".home-about-layer .ink-mask")
+            .each((r, mask) => {
+              const [from, to] = this.inkWindows[r];
+              new p0(mask, {
+                progress: () => Math.max(0, Math.min(1, (this.progress() - from) / (to - from))),
+              });
+            });
         }
       },
       UseCase: class extends a0 {
