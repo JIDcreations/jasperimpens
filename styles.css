@@ -4419,20 +4419,24 @@ html {
   display: flex;
   flex-direction: column;
   width: var(--work-open, 76rem);
+  pointer-events: none;
+}
+/* the fade sits on the children, not the wrapper, so the photo can stack above the ink */
+.home-work-open > * {
   opacity: 0;
   transform: translateX(-2.4rem);
-  pointer-events: none;
   transition:
     opacity 0.3s ease,
     transform 0.8s var(--work-ease);
 }
-.is-open .home-work-open {
+.is-open .home-work-open > * {
   opacity: 1;
   transform: none;
   transition-delay: 0.18s;
 }
 .home-work-photo {
   position: relative;
+  z-index: 3;
   display: block;
   flex: 1;
   min-height: 0;
@@ -4513,16 +4517,9 @@ html {
 .is-ink-top .home-work-arrow {
   background-color: transparent !important;
 }
-/* the ink floats over the photo: inside the blot it becomes a blue duotone */
-.is-ink-top .home-work-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-color: var(--content--brand);
-  mix-blend-mode: multiply;
-}
-.is-ink-top .home-work-photo img {
-  filter: grayscale(1) contrast(1.1) brightness(1.15);
+/* the ink flows behind the photo: the real photo stacks above it, so the copy's photo is hidden */
+.is-ink-top .home-work-photo {
+  visibility: hidden;
 }
 
 /* below desktop: a plain list of links */
@@ -4590,9 +4587,11 @@ html {
     grid-column: 1;
     grid-row: 3;
     width: auto;
+    pointer-events: auto;
+  }
+  .home-work-open > * {
     opacity: 1;
     transform: none;
-    pointer-events: auto;
   }
   .home-work-photo,
   .home-work-name,
@@ -4627,7 +4626,7 @@ html {
 }
 @media (prefers-reduced-motion: reduce) {
   .home-work-cols > li,
-  .home-work-open,
+  .home-work-open > *,
   .home-work-photo img,
   .home-work-arrow svg {
     transition-duration: 0.01s !important;
