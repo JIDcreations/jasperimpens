@@ -1138,7 +1138,7 @@
           n.getPropertyValue("--color--accent").trim() ||
           "#3967bc";
         this.accentRgb = this.hexToRgb(s, "#3967bc");
-        this.darkRgb = this.hexToRgb("#160a05", "#160a05");
+        this.darkRgb = this.hexToRgb("#2e2e2e", "#2e2e2e");
         this.resize();
         window.addEventListener("resize", this.resize);
         document.addEventListener("mousemove", this.onMouseMove, {
@@ -1677,13 +1677,13 @@
             const u = window.innerHeight;
             gsap.to(".loading-progress-item.item-bot", {
               y: this.deltaBotY,
-              backgroundColor: "#b3b3af",
+              backgroundColor: "#dbdbdb",
               duration: 0.4,
               ease: "cubic-bezier(1, 0, 0.44, 1)",
             });
             gsap.to(".loading-progress-item.item-top", {
               y: this.deltaTopY,
-              backgroundColor: "#b3b3af",
+              backgroundColor: "#dbdbdb",
               duration: 0.4,
               ease: "cubic-bezier(1, 0, 0.44, 1)",
               onUpdate: () => {
@@ -1891,7 +1891,7 @@
         seen.add(u);
         const root = getComputedStyle(document.documentElement);
         const restingColor = getComputedStyle(u).color;
-        const activeColor = (u.dataset.fillColor || "").trim() || root.getPropertyValue("--content--white").trim() || "#fff";
+        const activeColor = (u.dataset.fillColor || "").trim() || root.getPropertyValue("--content--white").trim() || "#f6f6f6";
         const inkColor = getComputedStyle(bg).backgroundColor;
 
         const top = u.cloneNode(true);
@@ -3237,7 +3237,7 @@
                 }
               }
               this.box.style.background =
-                "linear-gradient(" + J + ", rgba(57, 103, 188, 0.64) 0%, rgba(245, 245, 239, 0.00) 67.05%)";
+                "linear-gradient(" + J + ", rgba(57, 103, 188, 0.64) 0%, rgba(57, 103, 188, 0) 67.05%)";
               this.box.style.width = I + "px";
               this.box.style.height = Z + "px";
               this.box.style.left = k + "px";
@@ -3590,10 +3590,10 @@
           this.tlStickFade.fromTo(
             x.chars,
             {
-              color: "#b3b3af",
+              color: "#dbdbdb",
             },
             {
-              color: "#282828",
+              color: "#2e2e2e",
               stagger: 0.03,
             },
           );
