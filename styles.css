@@ -997,6 +997,19 @@ img {
   color: var(--content--disable);
   margin-bottom: 3.2rem;
 }
+@media screen and (min-width: 992px) {
+  .home-intro-content {
+    padding: 6.4rem 6.4rem 4.8rem;
+  }
+  .home-intro-content-title {
+    margin-bottom: 4.8rem;
+  }
+  .home-intro-content-title .heading.h3 {
+    font-size: min(7rem, 8vh);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+}
 .home-platform-content-number {
   color: var(--content--disable);
 }
