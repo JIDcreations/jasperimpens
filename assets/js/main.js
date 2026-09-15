@@ -1846,231 +1846,141 @@
       }
     }
     const lx = new Ix();
+    // Ink hover for .btn-fill: a turbulence-edged circle spreads from where the pointer enters
+    // and drains toward where it leaves. A light copy of the label is revealed by the same circle.
     const y0 = (() => {
-      const n = 580;
-      const s = "assets/images/pixel-mask.svg";
-      const r = window.matchMedia("(prefers-reduced-motion: reduce)");
-      const c = new WeakSet();
-      let o = false;
-      function f(u = document) {
-        if (u) {
-          if (!o) {
-            document.documentElement.style.setProperty("--ph-mask-image", 'url("' + s + '")');
-            o = true;
-          }
-          u.querySelectorAll(".btn-fill").forEach(l);
+      const SVG_NS = "http://www.w3.org/2000/svg";
+      const PAD = 14; // shape overhang so the displaced edge never shows along the button border
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const seen = new WeakSet();
+      let defs = null;
+      let uid = 0;
+      function svgEl(tag, attrs) {
+        const node = document.createElementNS(SVG_NS, tag);
+        Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+        return node;
+      }
+      // One filter per button so each edge's "wetness" can animate independently.
+      function createFilter() {
+        if (!defs) {
+          defs = svgEl("svg", { "aria-hidden": "true", width: "0", height: "0" });
+          defs.style.cssText = "position:absolute;width:0;height:0;overflow:hidden";
+          document.body.appendChild(defs);
+        }
+        const filter = svgEl("filter", { id: "btn-ink-" + ++uid, x: "-30%", y: "-60%", width: "160%", height: "220%" });
+        filter.append(
+          svgEl("feTurbulence", { type: "fractalNoise", baseFrequency: "0.07", numOctaves: "2", seed: String((uid % 9) + 1), result: "n" }),
+          svgEl("feDisplacementMap", { in: "SourceGraphic", in2: "n", scale: "8", xChannelSelector: "R", yChannelSelector: "G" }),
+        );
+        defs.appendChild(filter);
+        return filter;
+      }
+      function f(root = document) {
+        if (root) {
+          root.querySelectorAll(".btn-fill").forEach(l);
         }
       }
       function l(u) {
-        let D = function () {
-          var d0;
-          const m = getComputedStyle(u);
-          const P = m.color;
-          const F =
-            ((d0 = u.dataset.fillColor) == null ? undefined : d0.trim()) ||
-            m.getPropertyValue("--btn-fill-active-color").trim();
-          if (F) {
-            return {
-              restingColor: P,
-              activeColor: F,
-            };
-          }
-          const t0 = u.classList.contains("is-fill-active");
-          const G = u.style.transition;
-          u.style.setProperty("transition", "none");
-          u.classList.add("is-fill-active");
-          const i0 = getComputedStyle(u).color;
-          if (!t0) {
-            u.classList.remove("is-fill-active");
-          }
-          if (G) {
-            u.style.transition = G;
-          } else {
-            u.style.removeProperty("transition");
-          }
-          return {
-            restingColor: P,
-            activeColor: i0,
-          };
-        };
-        let _ = function () {
-          const { width: m, height: P } = u.getBoundingClientRect();
-          if (!m || !P) {
-            return;
-          }
-          const F = window.devicePixelRatio || 1;
-          const t0 = Math.max((m + 2) / 24, (P + 2) / 6);
-          const G = Math.ceil(t0 * F) / F;
-          const i0 = G * 24;
-          const d0 = G * 6;
-          b.style.width = i0 + "px";
-          b.style.height = d0 + "px";
-        };
-        let A = function (L) {
-          return gsap
-            .timeline({
-              paused: true,
-            })
-            .to(
-              b,
-              {
-                webkitMaskPosition: "100% 0",
-                maskPosition: "100% 0",
-                duration: n / 1000,
-                ease: "steps(19)",
-              },
-              0,
-            )
-            .to(
-              u,
-              {
-                color: L,
-                duration: 0.15,
-                ease: "circ.in",
-              },
-              0,
-            );
-        };
-        let J = function () {
-          k = false;
-          H.eventCallback("onComplete", null);
-          I.eventCallback("onComplete", null);
-          H.pause(0);
-          I.pause(0);
-          u.classList.remove("is-fill-exiting");
-          u.classList.remove("is-fill-entered");
-          gsap.set(b, {
-            webkitMaskPosition: "0% 0",
-            maskPosition: "0% 0",
-          });
-          gsap.set(u, {
-            clearProps: "color",
-          });
-        };
-        let o0 = function () {
-          if (O != null) {
-            O.kill();
-          }
-          u.classList.add("is-fill-resetting");
-          u.offsetWidth;
-          u.classList.remove("is-fill-active");
-          O = gsap.delayedCall(0.25, () => {
-            u.classList.remove("is-fill-resetting");
-            O = null;
-          });
-        };
-        let w0 = function () {
-          if (k) {
-            o0();
-          } else {
-            u.classList.remove("is-fill-active");
-          }
-        };
-        let j = function () {
-          u.classList.add("is-fill-exiting");
-          H.eventCallback("onComplete", null);
-          H.pause();
-          I.pause(0);
-          gsap.set(b, {
-            webkitMaskPosition: "0% 0",
-            maskPosition: "0% 0",
-          });
-          gsap.set(u, {
-            color: y,
-          });
-          I.invalidate();
-          I.eventCallback("onComplete", () => {
-            if (!Z) {
-              J();
-            }
-          });
-          I.restart();
-        };
-        if (c.has(u)) {
+        if (seen.has(u)) {
           return;
         }
-        const b = u.querySelector(".btn-fill-bg");
-        if (!b) {
+        const bg = u.querySelector(".btn-fill-bg");
+        if (!bg) {
           return;
         }
-        c.add(u);
-        const { restingColor: B, activeColor: y } = D();
-        _();
+        seen.add(u);
+        const root = getComputedStyle(document.documentElement);
+        const restingColor = getComputedStyle(u).color;
+        const activeColor = (u.dataset.fillColor || "").trim() || root.getPropertyValue("--content--white").trim() || "#fff";
+        const inkColor = getComputedStyle(bg).backgroundColor;
+
+        const top = u.cloneNode(true);
+        top.querySelector(".btn-fill-bg")?.remove();
+        top.classList.add("btn-ink-top");
+        top.setAttribute("aria-hidden", "true");
+        top.style.color = activeColor;
+        u.appendChild(top);
+        // Pin the resting color so CSS :hover rules don't turn the base label white before the ink arrives.
+        u.style.color = restingColor;
+
+        const filter = createFilter();
+        const disp = filter.querySelector("feDisplacementMap");
+        const shape = document.createElement("div");
+        shape.className = "btn-ink-shape";
+        shape.style.cssText = `inset:-${PAD}px;background-color:${inkColor}`;
+        bg.style.background = "none";
+        bg.style.filter = `url(#${filter.id})`;
+        bg.appendChild(shape);
+
+        let border = { top: 0, left: 0 };
+        const measure = () => {
+          const cs = getComputedStyle(u);
+          border = { top: parseFloat(cs.borderTopWidth) || 0, left: parseFloat(cs.borderLeftWidth) || 0 };
+          top.style.top = -border.top + "px";
+          top.style.left = -border.left + "px";
+          top.style.width = u.offsetWidth + "px";
+          top.style.height = u.offsetHeight + "px";
+        };
+        measure();
         if (typeof ResizeObserver !== "undefined") {
-          new ResizeObserver(_).observe(u);
+          new ResizeObserver(measure).observe(u);
         }
-        gsap.set(b, {
-          webkitMaskPosition: "0% 0",
-          maskPosition: "0% 0",
-        });
-        const H = A(y);
-        const I = A(B);
-        let Z = false;
-        let k = false;
-        let O = null;
-        u.addEventListener("pointerenter", (L) => {
-          if (L.pointerType !== "touch") {
-            Z = true;
-            if (O != null) {
-              O.kill();
-            }
-            O = null;
-            u.classList.remove("is-fill-resetting");
-            u.classList.remove("is-fill-exiting");
-            u.classList.remove("is-fill-entered");
-            u.classList.add("is-fill-active");
-            k = false;
-            H.eventCallback("onComplete", null);
-            I.eventCallback("onComplete", null);
-            H.pause(0);
-            I.pause(0);
-            gsap.set(b, {
-              webkitMaskPosition: "0% 0",
-              maskPosition: "0% 0",
-            });
-            gsap.set(u, {
-              color: B,
-            });
-            H.invalidate();
-            if (r.matches) {
-              k = true;
-              H.progress(1).pause();
-            } else {
-              H.eventCallback("onComplete", () => {
-                if (Z) {
-                  k = true;
-                  u.classList.add("is-fill-entered");
-                  u.offsetWidth;
-                  H.pause();
-                  gsap.set(b, {
-                    webkitMaskPosition: "0% 0",
-                    maskPosition: "0% 0",
-                  });
-                }
-              });
-              H.play();
-            }
-          }
-        });
-        u.addEventListener("pointerleave", () => {
-          Z = false;
-          if (r.matches) {
-            J();
-            o0();
+
+        const s = { r: 0, x: 0, y: 0, wet: 8 };
+        const draw = () => {
+          // bg sits inside the border and the shape overhangs it by PAD; top shares the button's border box
+          const sx = s.x - border.left + PAD;
+          const sy = s.y - border.top + PAD;
+          shape.style.clipPath = `circle(${s.r}px at ${sx}px ${sy}px)`;
+          top.style.clipPath = `circle(${Math.max(s.r - 6, 0)}px at ${s.x}px ${s.y}px)`;
+          bg.style.visibility = s.r > 0 ? "visible" : "hidden";
+          disp.setAttribute("scale", s.wet.toFixed(2));
+        };
+        draw();
+        const point = (e) => {
+          const rect = u.getBoundingClientRect();
+          return { x: e.clientX - rect.left, y: e.clientY - rect.top, w: rect.width, h: rect.height };
+        };
+        const reach = (p) => Math.hypot(Math.max(p.x, p.w - p.x), Math.max(p.y, p.h - p.y)) + PAD;
+
+        u.addEventListener("pointerenter", (e) => {
+          if (e.pointerType === "touch") {
             return;
           }
-          w0();
-          if (!k && H.isActive()) {
-            H.eventCallback("onComplete", () => {
-              if (!Z) {
-                u.classList.add("is-fill-entered");
-                u.offsetWidth;
-                j();
-              }
-            });
-          } else {
-            j();
+          const p = point(e);
+          gsap.killTweensOf(s);
+          if (reduced.matches) {
+            Object.assign(s, { r: reach(p), x: p.x, y: p.y, wet: 8 });
+            draw();
+            return;
           }
+          const tl = gsap.timeline({ onUpdate: draw });
+          if (s.r < 1) {
+            // fresh drop: a small blot soaks in at the pointer before spreading
+            Object.assign(s, { r: 0, x: p.x, y: p.y, wet: 18 });
+            tl.to(s, { r: 7, duration: 0.12, ease: "power2.out" }, 0);
+          }
+          tl.to(s, { r: reach(p), x: p.x, y: p.y, duration: 0.95, ease: "power2.inOut" }, s.r < 1 ? 0.08 : 0).to(
+            s,
+            { wet: 8, duration: 1, ease: "power1.in" },
+            0,
+          );
+        });
+        u.addEventListener("pointerleave", (e) => {
+          if (e.pointerType === "touch") {
+            return;
+          }
+          const p = point(e);
+          gsap.killTweensOf(s);
+          if (reduced.matches) {
+            s.r = 0;
+            draw();
+            return;
+          }
+          gsap
+            .timeline({ onUpdate: draw })
+            .to(s, { r: 0, x: p.x, y: p.y, duration: 0.65, ease: "power3.inOut" }, 0)
+            .to(s, { wet: 16, duration: 0.65, ease: "power1.in" }, 0);
         });
       }
       return {

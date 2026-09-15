@@ -3817,20 +3817,31 @@ html {
   }
 }
 
+/* Ink hover (y0 in main.js): the bg is a full-size layer holding a clipped, displaced ink shape,
+   and .btn-ink-top is a light copy of the label revealed by the same clip. */
 .btn-fill-bg {
   background: var(--content--primary);
   pointer-events: none;
-  -webkit-mask-image: var(--ph-mask-image);
-  mask-image: var(--ph-mask-image);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: 2000% 100%;
-  mask-size: 2000% 100%;
-  -webkit-mask-position: 0% 0;
-  mask-position: 0% 0;
-  -webkit-mask-mode: alpha;
-  mask-mode: alpha;
-  will-change: -webkit-mask-position, mask-position;
+}
+.btn-fill .btn-fill-bg {
+  inset: 0;
+  width: auto;
+  height: auto;
+  transform: none;
+  visibility: hidden;
+}
+.btn-ink-shape {
+  position: absolute;
+}
+.btn-ink-top {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+.btn-ink-top .btn-fill-icon::before {
+  color: currentColor !important;
 }
 .btn-fill-icon::before {
   position: absolute;
@@ -3850,68 +3861,15 @@ html {
   transform: translateY(-50%);
   transition: color 0.48s cubic-bezier(0.625, 0.05, 0, 1);
 }
-.btn-fill.is-fill-entered {
-  background-color: var(--content--primary);
-}
-.btn-fill.is-fill-exiting .btn-fill-bg {
-  background-color: var(--content--brand);
-}
-.btn-fill.is-fill-resetting .label-top,
-.btn-fill.is-fill-resetting .label-bot,
-.btn-fill.is-fill-resetting .icon-top,
-.btn-fill.is-fill-resetting .icon-bot {
-  transition: none !important;
-}
-.btn-fill.is-fill-resetting .btn-fill-icon::before {
-  transition: color 0.25s cubic-bezier(0.625, 0.05, 0, 1) !important;
-}
 .btn-fill.button-outline-p32 .btn-fill-icon::before,
 .btn-fill.button-outline .btn-fill-icon::before {
   color: var(--content--border);
 }
-.btn-fill.is-fill-exiting.button-outline-p32 .btn-fill-bg,
-.btn-fill.is-fill-exiting.button-outline .btn-fill-bg,
-.btn-fill.is-fill-exiting.button-no-ic .btn-fill-bg,
-.btn-fill.is-fill-exiting.button-no-ic-small .btn-fill-bg {
-  background-color: #f5f5ed;
-}
-
 .btn-fill.button-outline-2 .btn-fill-icon::before {
   display: none;
 }
-.btn-fill.is-fill-entered.button-outline-2 {
-  background-color: var(--content--brand);
-}
 .btn-fill.button-outline-2 .btn-fill-bg {
   background-color: var(--content--brand);
-}
-
-.btn-fill.is-fill-exiting.button-outline-2 .btn-fill-bg {
-  background-color: #f5f5ed;
-}
-@media (hover: hover) and (min-width: 992px) {
-  .btn-fill.is-fill-exiting .btn-fill-bg {
-    background: var(--content--brand);
-  }
-  .btn-fill.is-fill-active .label-top {
-    transform: translateY(-100%);
-  }
-
-  .btn-fill.is-fill-active .label-bot {
-    transform: translateY(0%);
-  }
-
-  .btn-fill.is-fill-active .icon-top {
-    transform: translateX(100%);
-  }
-
-  .btn-fill.is-fill-active .icon-bot {
-    transform: translateX(0%);
-  }
-
-  .btn-fill.is-fill-active .btn-fill-icon::before {
-    color: var(--content--white);
-  }
 }
 
 .home-hero-img-deco-inner .txt:first-child {
