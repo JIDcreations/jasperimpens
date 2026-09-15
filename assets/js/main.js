@@ -3703,9 +3703,9 @@
         constructor() {
           super();
           this.el = null;
+          this.list = null;
+          this.items = [];
           this.tlContent = null;
-          this.tlImage = null;
-          this.tlList = null;
         }
         trigger(t) {
           this.el = t.next.container.querySelector(".home-usecase-wrap");
@@ -3713,42 +3713,127 @@
         }
         onTrigger() {
           this.animationReveal();
-          this.animationScrub();
-          this.interact();
         }
         setup() {
-          D0($(this.el).find(".home-usecase-faq-item"));
+          this.list = this.el.querySelector(".home-work-cols");
+          this.items = Array.from(this.list.children);
+          this.size();
+          window.addEventListener("resize", () => this.size());
+          const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+          this.items.forEach((li) => {
+            const link = li.querySelector(".home-work-col");
+            if (canHover) {
+              link.addEventListener("pointerenter", () => this.open(li));
+              this.ink(link);
+            }
+            link.addEventListener("focus", () => this.open(li));
+          });
         }
-        animationScrub() {
-          $(this.el)
-            .find(".home-usecase-img-item img")
-            .each(
-              (x, n) =>
-                new P0({
-                  el: n,
-                }),
-            );
+        // open content is laid out at the final open width, so it never reflows while the column grows
+        size() {
+          const open = (this.list.clientWidth * 3.2) / (this.items.length - 1 + 3.2);
+          this.list.style.setProperty("--work-open", open + "px");
+        }
+        open(li) {
+          if (li.classList.contains("is-open")) {
+            return;
+          }
+          this.items.forEach((x) => x.classList.toggle("is-open", x === li));
+          li.classList.add("is-reveal");
+          void li.offsetWidth;
+          li.classList.remove("is-reveal");
+        }
+        // Blue ink for a column: a wet-edged blot spreads from the pointer and a light copy of the
+        // content rides the same clip. The reach is re-measured every frame because the column grows.
+        ink(link) {
+          const PAD = 14;
+          const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          if (!document.getElementById("work-ink-filter")) {
+            const defs = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            defs.setAttribute("aria-hidden", "true");
+            defs.style.cssText = "position:absolute;width:0;height:0;overflow:hidden";
+            defs.innerHTML =
+              '<filter id="work-ink-filter" x="-30%" y="-30%" width="160%" height="160%">' +
+              '<feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="4" result="n"></feTurbulence>' +
+              '<feDisplacementMap in="SourceGraphic" in2="n" scale="12" xChannelSelector="R" yChannelSelector="G"></feDisplacementMap>' +
+              "</filter>";
+            document.body.appendChild(defs);
+          }
+          const content = link.querySelector(".home-work-col-inner");
+          const bg = document.createElement("span");
+          const shape = document.createElement("span");
+          bg.className = "home-work-ink";
+          shape.className = "home-work-ink-shape";
+          bg.style.filter = "url(#work-ink-filter)";
+          bg.appendChild(shape);
+          const top = content.cloneNode(true);
+          top.classList.add("is-ink-top");
+          top.setAttribute("aria-hidden", "true");
+          link.append(bg, top);
+
+          const s = { r: 0, x: 0, y: 0 };
+          let grow = null;
+          const draw = () => {
+            shape.style.clipPath = `circle(${s.r}px at ${s.x + PAD}px ${s.y + PAD}px)`;
+            top.style.clipPath = `circle(${Math.max(s.r - 6, 0)}px at ${s.x}px ${s.y}px)`;
+            bg.style.visibility = s.r > 0 ? "visible" : "hidden";
+          };
+          draw();
+          const reach = (p, w, h) => Math.hypot(Math.max(p.x, w - p.x), Math.max(p.y, h - p.y)) + PAD;
+          const point = (e) => {
+            const r = link.getBoundingClientRect();
+            return { x: e.clientX - r.left, y: e.clientY - r.top };
+          };
+          link.addEventListener("pointerenter", (e) => {
+            const p = point(e);
+            gsap.killTweensOf(s);
+            if (grow) {
+              grow.kill();
+            }
+            if (s.r < 1) {
+              Object.assign(s, p);
+            }
+            const target = () => {
+              const r = link.getBoundingClientRect();
+              return reach(p, r.width, r.height);
+            };
+            if (reduced) {
+              Object.assign(s, p, { r: target() });
+              draw();
+              return;
+            }
+            const from = s.r;
+            const prog = { t: 0 };
+            gsap.to(s, { x: p.x, y: p.y, duration: 0.9, ease: "power2.inOut" });
+            grow = gsap.to(prog, {
+              t: 1,
+              duration: 0.9,
+              ease: "power2.inOut",
+              onUpdate: () => {
+                s.r = from + (target() - from) * prog.t;
+                draw();
+              },
+            });
+          });
+          link.addEventListener("pointerleave", (e) => {
+            const p = point(e);
+            gsap.killTweensOf(s);
+            if (grow) {
+              grow.kill();
+              grow = null;
+            }
+            if (reduced) {
+              s.r = 0;
+              draw();
+              return;
+            }
+            gsap.to(s, { r: 0, x: p.x, y: p.y, duration: 0.6, ease: "power3.inOut", onUpdate: draw });
+          });
         }
         animationReveal() {
-          this.tlImage = gsap.timeline({
-            scrollTrigger: {
-              trigger: $(this.el).find(".home-usecase-img-list").get(0),
-              start: "top+=35% bottom",
-              once: true,
-            },
-          });
-          new U({
-            timeline: this.tlImage,
-            triggerInit: this.el,
-            tweenArr: [
-              new s0({
-                el: $(this.el).find(".home-usecase-img-item:first-child").get(0),
-              }),
-            ],
-          });
           this.tlContent = gsap.timeline({
             scrollTrigger: {
-              trigger: $(this.el).find(".home-usecase-title-wrap").get(0),
+              trigger: $(this.el).find(".home-work-head").get(0),
               start: "top+=40% bottom",
               once: true,
             },
@@ -3758,86 +3843,13 @@
             triggerInit: this.el,
             tweenArr: [
               new p({
-                el: $(this.el).find(".home-usecase-label .txt").get(0),
+                el: $(this.el).find(".home-work-label").get(0),
               }),
               new p({
-                el: $(this.el).find(".home-usecase-title .heading").get(0),
+                el: $(this.el).find(".home-work-title").get(0),
               }),
             ],
           });
-          this.tlList = gsap.timeline({
-            scrollTrigger: {
-              trigger: $(this.el).find(".home-usecase-faq-list").get(0),
-              start: "top+=65% bottom",
-              once: true,
-            },
-          });
-          $(this.el)
-            .find(".home-usecase-faq-item")
-            .each((n, s) => {
-              new U({
-                timeline: this.tlList,
-                triggerInit: this.el,
-                stagger: 0.03,
-                tweenArr: [
-                  n === 0
-                    ? new B0({
-                        el: $(s).find(".line.top").get(0),
-                        type: "left",
-                      })
-                    : null,
-                  new p({
-                    el: $(s).find(".home-usecase-faq-item-numb .txt").get(0),
-                  }),
-                  new p({
-                    el: $(s).find(".home-usecase-faq-item-title .heading").get(0),
-                  }),
-                  new X({
-                    el: $(s).find(".home-usecase-faq-item-ic"),
-                    type: "bottom",
-                  }),
-                  n === 0
-                    ? new p({
-                        el: $(s).find(".home-usecase-faq-item-sub .txt").get(0),
-                      })
-                    : null,
-                  new g0({
-                    el: $(s).find(".line.bot").get(0),
-                    type: "left",
-                  }),
-                ].filter(Boolean),
-              });
-            });
-        }
-        interact() {
-          const n = (s) => {
-            $(this.el)
-              .find(".home-usecase-img-item")
-              .eq(s)
-              .addClass("active")
-              .siblings()
-              .removeClass("active");
-            $(this.el)
-              .find(".home-usecase-faq-item")
-              .eq(s)
-              .toggleClass("active")
-              .siblings()
-              .removeClass("active");
-            $(this.el)
-              .find(".home-usecase-faq-item")
-              .eq(s)
-              .siblings()
-              .find(".home-usecase-faq-item-sub")
-              .slideUp();
-            $(this.el).find(".home-usecase-faq-item").eq(s).find(".home-usecase-faq-item-sub").slideToggle();
-          };
-          $(this.el).find(".home-usecase-faq-item-sub").hide();
-          $(this.el)
-            .find(".home-usecase-faq-item")
-            .on("click", function () {
-              n($(this).index());
-            });
-          n(0);
         }
       },
       Cta: class {

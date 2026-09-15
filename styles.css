@@ -4272,3 +4272,364 @@ html {
     transition-duration: 0.01s;
   }
 }
+
+/* =========================================================
+   HOME WORK — SELECTED WORK COLUMNS
+   Five category links. The hovered column opens wide (photo,
+   big title, description); the rest fold to a vertical title.
+   Blue ink floods the column you point at (see UseCase in main.js).
+========================================================= */
+.home-work {
+  --work-muted: rgba(46, 46, 46, 0.72);
+  --work-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+.home-work-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: end;
+  gap: 3.2rem;
+  padding: 3.2rem;
+  border-bottom: var(--size--border) solid var(--content--border);
+}
+.home-work-label {
+  color: var(--content--brand);
+}
+.home-work-title {
+  margin-top: 1.2rem;
+  color: var(--content--primary);
+  font-size: 4.8rem;
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.home-work-hint {
+  justify-self: end;
+  max-width: 34ch;
+  margin: 0;
+  color: var(--work-muted);
+  line-height: 1.4;
+}
+
+.home-work-cols {
+  display: flex;
+  height: min(66rem, calc(var(--size--max-screen-height) - 20rem));
+  min-height: 54rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.home-work-cols > li {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  transition: flex-grow 0.9s var(--work-ease);
+}
+.home-work-cols > li + li {
+  border-left: var(--size--border) solid var(--content--border);
+}
+.home-work-cols > li.is-open {
+  flex-grow: 3.2;
+}
+.home-work-col {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--content--primary);
+  text-decoration: none;
+}
+.home-work-col:focus-visible {
+  outline: 2px solid var(--content--brand);
+  outline-offset: -2px;
+}
+.home-work-col-inner {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+.home-work-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.6rem;
+}
+.home-work-top .txt {
+  padding-top: 0.4rem;
+  color: var(--content--brand);
+}
+.home-work-arrow {
+  display: grid;
+  place-items: center;
+  width: 5.6rem;
+  height: 5.6rem;
+  border: var(--size--border) solid var(--content--border);
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease;
+}
+.home-work-arrow svg,
+.home-work-cta-ic svg {
+  width: 2rem;
+  height: 2rem;
+  transition: transform 0.5s cubic-bezier(0.625, 0.05, 0, 1);
+}
+.home-work-col:hover .home-work-arrow svg,
+.home-work-col:hover .home-work-cta-ic svg {
+  transform: translateX(0.4rem);
+}
+.is-open .home-work-arrow {
+  background-color: var(--content--brand);
+  border-color: var(--content--brand);
+  color: var(--content--white);
+}
+
+/* folded: vertical title */
+.home-work-fold {
+  position: absolute;
+  left: 1.6rem;
+  bottom: 2rem;
+  font-size: 4.4rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  transition:
+    opacity 0.35s ease,
+    color 0.4s ease;
+}
+.is-open .home-work-fold {
+  opacity: 0;
+}
+
+/* open: laid out at the final open width so nothing reflows while it grows */
+.home-work-open {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: var(--work-open, 76rem);
+  opacity: 0;
+  transform: translateX(-2.4rem);
+  pointer-events: none;
+  transition:
+    opacity 0.3s ease,
+    transform 0.8s var(--work-ease);
+}
+.is-open .home-work-open {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.18s;
+}
+.home-work-photo {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 0;
+  margin: 8.8rem 3.2rem 0;
+  overflow: hidden;
+  background-color: var(--content--gray);
+}
+.home-work-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  filter: grayscale(1);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 1s var(--work-ease);
+}
+.is-reveal .home-work-photo img {
+  clip-path: inset(100% 0 0 0);
+  transition: none;
+}
+.home-work-body {
+  display: block;
+  padding: 2.4rem 3.2rem 0;
+}
+.home-work-name {
+  display: block;
+  font-size: 6.4rem;
+  font-weight: 600;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+.home-work-desc {
+  display: block;
+  max-width: 42ch;
+  margin-top: 1.2rem;
+  color: var(--content--brand);
+  font-size: 1.6rem;
+  line-height: 1.35;
+}
+.home-work-cta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2.4rem;
+  padding: 1.4rem 3.2rem;
+  border-top: var(--size--border) solid var(--content--border);
+}
+.home-work-cta-ic {
+  display: grid;
+}
+
+/* ink: blue blot + a light copy of the column riding the same clip */
+.home-work-ink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  visibility: hidden;
+}
+.home-work-ink-shape {
+  position: absolute;
+  inset: -14px;
+  background-color: var(--content--brand);
+}
+.home-work-col-inner.is-ink-top {
+  z-index: 2;
+  pointer-events: none;
+  color: var(--content--white);
+}
+.is-ink-top *,
+.is-ink-top .home-work-top .txt,
+.is-ink-top .home-work-desc {
+  color: var(--content--white) !important;
+  border-color: rgba(246, 246, 246, 0.35) !important;
+}
+.is-ink-top .home-work-arrow {
+  background-color: transparent !important;
+}
+/* the ink floats over the photo: inside the blot it becomes a blue duotone */
+.is-ink-top .home-work-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--content--brand);
+  mix-blend-mode: multiply;
+}
+.is-ink-top .home-work-photo img {
+  filter: grayscale(1) contrast(1.1) brightness(1.15);
+}
+
+/* below desktop: a plain list of links */
+@media only screen and (max-width: 991px) {
+  .home-work-head {
+    grid-template-columns: 1fr;
+  }
+  .home-work-hint {
+    justify-self: start;
+  }
+  .home-work-cols {
+    display: block;
+    height: auto;
+    min-height: 0;
+  }
+  .home-work-cols > li + li {
+    border-left: 0;
+    border-top: var(--size--border) solid var(--content--border);
+  }
+  .home-work-col {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.8rem 1.6rem;
+    padding: 2rem 3.2rem;
+  }
+  .home-work-col-inner,
+  .home-work-top {
+    position: static;
+    display: contents;
+  }
+  .home-work-ink,
+  .home-work-col-inner.is-ink-top {
+    display: none !important;
+  }
+  .home-work-top .txt {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 0;
+  }
+  .home-work-arrow {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+  .is-open .home-work-arrow {
+    background-color: transparent;
+    border-color: var(--content--border);
+    color: inherit;
+  }
+  .home-work-fold {
+    position: static;
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 5.6rem;
+    writing-mode: horizontal-tb;
+    transform: none;
+    white-space: normal;
+  }
+  .is-open .home-work-fold {
+    opacity: 1;
+  }
+  .home-work-open {
+    position: static;
+    grid-column: 1;
+    grid-row: 3;
+    width: auto;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .home-work-photo,
+  .home-work-name,
+  .home-work-cta {
+    display: none;
+  }
+  .home-work-body {
+    padding: 0;
+  }
+  .home-work-desc {
+    margin: 0;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .home-work-head {
+    gap: 1.6rem;
+    padding: 3.2rem 1.6rem;
+  }
+  .home-work-title {
+    font-size: 3.6rem;
+  }
+  .home-work-col {
+    padding: 1.8rem 1.6rem;
+  }
+  .home-work-fold {
+    font-size: 3.2rem;
+  }
+  .home-work-arrow {
+    width: 4.4rem;
+    height: 4.4rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-work-cols > li,
+  .home-work-open,
+  .home-work-photo img,
+  .home-work-arrow svg {
+    transition-duration: 0.01s !important;
+  }
+}
