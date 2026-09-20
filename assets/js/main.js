@@ -2506,156 +2506,38 @@
         this.logoInk = null;
       }
       init(x) {
-        this.el = x.next.container.querySelector(".footer");
+        this.el = x.next.container.querySelector(".closing-footer");
         this.onTrigger();
       }
       onTrigger() {
-        this.animationReveal();
-        this.interact();
+        // Reveal-on-scroll intentionally skipped here: this is the closing
+        // contact block, and it must never ship in a hidden/pre-reveal state.
       }
       animationReveal() {
-        this.tlTitle = gsap.timeline({
+        this.tlFoot = gsap.timeline({
           scrollTrigger: {
-            trigger: $(this.el).find(".footer-title-wrap"),
+            trigger: $(this.el).find(".closing-footer-inner"),
             start: "top+=55% bottom",
             once: true,
           },
         });
         new U({
-          timeline: this.tlTitle,
+          timeline: this.tlFoot,
           triggerInit: this.el,
+          stagger: 0.08,
           tweenArr: [
-            new p({
-              el: $(this.el).find(".footer-title").get(0),
+            new X({
+              el: $(this.el).find(".closing-footer-brand"),
+              type: "bottom",
             }),
-          ],
-        });
-        this.tlMenu = gsap.timeline({
-          scrollTrigger: {
-            trigger: $(this.el).find(".footer-menu"),
-            start: "top+=55% bottom",
-            once: true,
-          },
-        });
-        $(this.el)
-          .find(".footer-menu-item")
-          .each((s, r) => {
-            new U({
-              stagger: 0.05,
-              timeline: this.tlMenu,
-              triggerInit: this.el,
-              tweenArr: [
-                new p({
-                  el: $(r).find(".footer-menu-item-label .txt").get(0),
-                }),
-                ...Array.from($(r).find(".footer-menu-item-link")).flatMap((o) => [
-                  new p({
-                    el: $(o).find(".txt").get(0),
-                  }),
-                ]),
-              ],
-            });
-          });
-        this.tlInfo = gsap.timeline({
-          scrollTrigger: {
-            trigger: $(this.el).find(".footer-info-wrap"),
-            start: "top+=55% bottom",
-            once: true,
-          },
-        });
-        $(this.el)
-          .find(".footer-info-item")
-          .each((s, r) => {
-            new U({
-              timeline: this.tlInfo,
-              triggerInit: this.el,
-              tweenArr: [
-                ...Array.from($(r).find(".footer-info-item-label")).flatMap((o) => [
-                  new p({
-                    el: $(o).find(".txt").get(0),
-                  }),
-                ]),
-                ...Array.from($(r).find(".footer-info-item-title")).flatMap((o) => [
-                  new p({
-                    el: $(o).find(".txt").get(0),
-                  }),
-                ]),
-              ],
-            });
-          });
-        this.tlLogo = gsap.timeline({
-          scrollTrigger: {
-            trigger: $(this.el).find(".footer-logo"),
-            start: "top+=55% bottom",
-            once: true,
-          },
-        });
-        new U({
-          timeline: this.tlLogo,
-          triggerInit: this.el,
-          tweenArr: [
-            new s0({
-              el: $(this.el).find(".footer-logo-inner").get(0),
-            }),
-          ],
-        });
-        this.tlImg = gsap.timeline({
-          scrollTrigger: {
-            trigger: $(this.el).find(".footer-img-wrap"),
-            start: "top+=55% bottom",
-            once: true,
-          },
-        });
-        new U({
-          timeline: this.tlImg,
-          triggerInit: this.el,
-          tweenArr: [
-            ...Array.from($(this.el).find(".footer-img-plus")).flatMap((s) => [
-              new s0({
-                el: $(s).get(0),
+            ...Array.from($(this.el).find(".closing-footer-col")).flatMap((o) => [
+              new X({
+                el: $(o),
+                type: "bottom",
               }),
             ]),
           ],
         });
-        this.copyright = gsap.timeline({
-          scrollTrigger: {
-            trigger: $(this.el).find(".footer-copyright-wrap"),
-            start: "top+=35% bottom",
-            once: true,
-          },
-        });
-        new U({
-          timeline: this.copyright,
-          triggerInit: this.el,
-          tweenArr: [
-            new p({
-              el: $(this.el).find(".footer-copyright-txt .txt").get(0),
-            }),
-            ...Array.from($(this.el).find(".footer-policy-item")).flatMap((s) => [
-              new p({
-                el: $(s).find(".txt").get(0),
-              }),
-            ]),
-          ],
-        });
-        new P0({
-          el: $(this.el).find(".footer-logo-inner .ic-embed").get(0),
-          speed: 0.2,
-        });
-      }
-      interact() {
-        this.hoverLogo();
-      }
-      hoverLogo() {
-        var r;
-        this.footerLogoWrap = $(this.el).find(".footer-img-wrap").get(0);
-        const n = (r = this.footerLogoWrap) == null ? undefined : r.querySelector(".ink-mask");
-        const s = window.matchMedia
-          ? window.matchMedia("(any-hover: hover) and (any-pointer: fine)").matches
-          : !w();
-        if (!!n && !!s) {
-          this.logoInk = new Jx(n);
-        }
       }
     }
     const b0 = new ux();
@@ -2815,17 +2697,17 @@
         this.tlImage = null;
       }
       init(x) {
-        this.el = x.next.container.querySelector(".cta-wrap");
+        this.el = x.next.container.querySelector(".closing-wrap");
         this.onTrigger();
       }
       onTrigger() {
-        this.animationReveal();
+        // Reveal-on-scroll intentionally skipped here: this is the closing
+        // contact block, and it must never ship in a hidden/pre-reveal state.
       }
       animationReveal() {
-        new p0($(this.el).find(".cta-deco-item-img-inner").get(0));
         this.tlContent = gsap.timeline({
           scrollTrigger: {
-            trigger: $(this.el).find(".cta-main"),
+            trigger: $(this.el).find(".closing-hero"),
             start: "top+=40% bottom",
             once: true,
           },
@@ -2835,37 +2717,15 @@
           triggerInit: this.el,
           stagger: 0.15,
           tweenArr: [
-            ...Array.from($(this.el).find(".cta-head-item-txt")).flatMap((n) => [
-              new X({
-                el: $(n),
-                type: "bottom",
-              }),
-            ]),
             new p({
-              el: $(this.el).find(".cta-main-item-title .heading").get(0),
+              el: $(this.el).find(".closing-title").get(0),
             }),
             new p({
-              el: $(this.el).find(".cta-main-item-sub .txt").get(0),
+              el: $(this.el).find(".closing-sub").get(0),
             }),
             new X({
-              el: $(this.el).find(".cta-main-item-btn"),
+              el: $(this.el).find(".closing-email"),
               type: "bottom",
-            }),
-          ],
-        });
-        this.tlImage = gsap.timeline({
-          scrollTrigger: {
-            trigger: $(this.el).find(".cta-deco"),
-            start: "top+=40% bottom",
-            once: true,
-          },
-        });
-        new U({
-          timeline: this.tlImage,
-          triggerInit: this.el,
-          tweenArr: [
-            new s0({
-              el: $(this.el).find(".cta-deco-item-img").get(0),
             }),
           ],
         });
