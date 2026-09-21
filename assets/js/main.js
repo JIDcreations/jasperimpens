@@ -2010,7 +2010,7 @@
             return null;
           }
           try {
-            const A = new URL(B, window.location.origin);
+            const A = new URL(B, window.location.href); // relative to the page, so "#contact" stays on it
             if (A.origin === window.location.origin) {
               return A;
             } else {

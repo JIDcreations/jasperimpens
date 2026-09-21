@@ -5376,3 +5376,40 @@ html {
     grid-column: 1 / -1;
   }
 }
+
+/* Ink hover for plain buttons (assets/js/ink.js): same layers as the .btn-fill ink above.
+   .ink-fx-bg holds the clipped, displaced ink shape; .ink-fx-top is a recolored copy of the label. */
+.ink-fx {
+  isolation: isolate;
+  overflow: hidden;
+}
+.ink-fx-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  visibility: hidden;
+}
+.ink-fx-shape {
+  position: absolute;
+}
+.ink-fx-top {
+  position: absolute !important;
+  right: auto !important;
+  bottom: auto !important;
+  z-index: 2 !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  pointer-events: none;
+  visibility: hidden;
+  background: transparent !important;
+  border-color: transparent !important;
+  transition: none !important;
+}
+.pj-visit .ink-fx-top .pj-visit-ic svg {
+  transition: transform 0.5s var(--wk-ease);
+}
+.pj-visit:hover .ink-fx-top .pj-visit-ic svg,
+.pj-visit:focus-visible .ink-fx-top .pj-visit-ic svg {
+  transform: rotate(-45deg);
+}
