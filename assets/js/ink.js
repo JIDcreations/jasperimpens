@@ -6,7 +6,7 @@
   var BUTTONS = [
     { sel: '.wk-nav-item:not(.is-current)', ink: '--content--brand', text: '--content--lime' },
     { sel: '.pj-video-btn', ink: '--content--brand', text: '--content--lime' },
-    { sel: '.pj-visit', ink: '--content--brand', text: '--content--lime' },
+    { sel: '.pj-visit', ink: '--wk-ink', text: '--content--lime' },
     { sel: '.wk-empty-link', ink: '--wk-ink', text: '--content--lime' },
     { sel: '.ps-follow', ink: '--wk-ink', text: '--content--lime' },
     { sel: '.closing-btn', ink: '--content--paper', text: '--content--primary' },

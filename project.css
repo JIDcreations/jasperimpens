@@ -89,8 +89,8 @@
   justify-content: space-between;
   gap: 1.6rem;
   padding: 2.2rem 2.4rem;
-  background-color: var(--wk-ink);
-  color: var(--content--paper);
+  background-color: var(--content--brand);
+  color: var(--content--lime);
   font-size: 2rem;
   letter-spacing: var(--brand-tracking);
   transition: background-color 0.35s ease;
@@ -111,11 +111,92 @@
 }
 .wk a.pj-visit:hover,
 .wk a.pj-visit:focus-visible {
-  background-color: var(--content--brand);
+  background-color: var(--wk-ink);
 }
 .pj-visit:hover .pj-visit-ic svg,
 .pj-visit:focus-visible .pj-visit-ic svg {
   transform: rotate(-45deg);
+}
+
+/* Floating "visit the live site" pill. Hidden while the hero button is on
+   screen and near the end of the page; project.js toggles .is-shown. */
+.pj-dock {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  bottom: 2.4rem;
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+  padding: 1.4rem 1.4rem 1.4rem 2.4rem;
+  background-color: var(--content--brand);
+  color: var(--content--lime);
+  text-decoration: none;
+  box-shadow: 0 0 0 var(--size--border) var(--content--brand), 0 1.2rem 3.2rem -1.2rem color-mix(in srgb, var(--brand-ink) 55%, transparent);
+  transform: translate(-50%, calc(100% + 3.2rem));
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.6s var(--wk-ease),
+    opacity 0.3s ease,
+    visibility 0s linear 0.6s,
+    background-color 0.35s ease;
+}
+.pj-dock.is-shown {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 0.6s var(--wk-ease),
+    opacity 0.3s ease,
+    visibility 0s,
+    background-color 0.35s ease;
+}
+.wk a.pj-dock:hover,
+.wk a.pj-dock:focus-visible {
+  background-color: var(--wk-ink);
+}
+.pj-dock-dot {
+  position: relative;
+  flex-shrink: 0;
+  width: 0.9rem;
+  height: 0.9rem;
+  background-color: var(--content--lime);
+}
+.pj-dock-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--content--lime);
+  animation: pj-dock-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+@keyframes pj-dock-ping {
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+.pj-dock-txt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  white-space: nowrap;
+}
+.wk .pj-dock-kicker {
+  color: color-mix(in srgb, var(--brand-lime) 70%, transparent);
+  text-transform: uppercase;
+}
+.pj-dock-label {
+  font-size: 2.2rem;
+  line-height: 1.1;
+}
+.pj-dock-ic svg {
+  transform: rotate(-45deg);
+}
+.pj-dock:hover .pj-dock-ic svg,
+.pj-dock:focus-visible .pj-dock-ic svg {
+  transform: rotate(-45deg) translateX(0.3rem);
+}
+.pj-dock:focus-visible {
+  outline: 2px solid var(--content--lime);
+  outline-offset: 3px;
 }
 
 .pj-cover {
@@ -404,6 +485,18 @@
   .pj-fact { padding: 1.6rem; }
   .pj-fact:first-child { padding-top: 1.6rem; }
   .pj-visit { padding: 2rem 1.6rem; }
+  /* phones: a full-width bar docked to the bottom, like an app tab bar */
+  .pj-dock {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    justify-content: flex-start;
+    padding: 1.2rem 1.6rem calc(1.2rem + env(safe-area-inset-bottom));
+    box-shadow: none;
+    transform: translateY(100%);
+  }
+  .pj-dock.is-shown { transform: none; }
+  .pj-dock-ic { margin-left: auto; }
   .pj-summary { padding: 4.8rem 1.6rem; }
   .pj-summary p { font-size: 2.6rem; }
   .pj-story-row { padding: 3.2rem 1.6rem 3.6rem; }
@@ -425,6 +518,7 @@
   .pj-next-name { font-size: 4.4rem; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .pj-dock-dot::after { animation: none; }
   .pj-shot img,
   .pj-next-media img,
   .pj-back svg,

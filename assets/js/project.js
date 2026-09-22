@@ -30,6 +30,31 @@
     });
   });
 
+  // Floating "visit the live site" pill: shown once the hero button has scrolled
+  // away, tucked away again when the next-project block or the footer arrives.
+  var dock = document.querySelector('[data-pj-dock]');
+  var visit = document.querySelector('.pj-visit');
+  if (dock && visit && 'IntersectionObserver' in window) {
+    var heroGone = false;
+    var endSeen = false;
+    var ends = Array.prototype.slice.call(document.querySelectorAll('.pj-next, .closing-footer'));
+    var shown = {};
+    var update = function () { dock.classList.toggle('is-shown', heroGone && !endSeen); };
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        // only "gone" once it has left through the top, not before it has been reached
+        heroGone = !e.isIntersecting && e.boundingClientRect.top < 0;
+      });
+      update();
+    }).observe(visit);
+    var endIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { shown[ends.indexOf(e.target)] = e.isIntersecting; });
+      endSeen = Object.keys(shown).some(function (k) { return shown[k]; });
+      update();
+    });
+    ends.forEach(function (el) { endIo.observe(el); });
+  }
+
   // Click a screen to see it large.
   var box = document.querySelector('[data-pj-lightbox]');
   if (box) {
