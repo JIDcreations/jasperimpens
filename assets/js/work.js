@@ -47,6 +47,13 @@
     });
   });
 
-  var start = (location.hash || '').replace('#', '');
-  apply(valid.indexOf(start) > -1 ? start : 'all', false);
+  // The home page's link rewriter turns work.html#apps into work.html?sc=apps, so read both.
+  var sc = null;
+  try { sc = new URLSearchParams(location.search).get('sc'); } catch (e) {}
+  var start = (location.hash || '').replace('#', '') || sc || '';
+  if (valid.indexOf(start) < 0) start = 'all';
+  apply(start, false);
+  if (sc) {
+    try { history.replaceState(null, '', location.pathname + (start === 'all' ? '' : '#' + start)); } catch (e) {}
+  }
 })();

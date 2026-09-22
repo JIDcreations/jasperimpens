@@ -362,6 +362,13 @@
 .pj-shots-grid[data-count="1"] .pj-shot img {
   aspect-ratio: 16 / 9;
 }
+/* Wide UI strips (a row of cards, a single chart) keep their own ratio instead of a 16:9 crop. */
+.pj-shot.is-strip {
+  grid-column: 1 / -1;
+}
+.pj-shot.is-strip img {
+  aspect-ratio: auto;
+}
 .pj-shot-btn:hover img,
 .pj-shot-btn:focus-visible img {
   transform: scale(1.025);
