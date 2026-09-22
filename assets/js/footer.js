@@ -1,11 +1,14 @@
 (function () {
   // Footer: live Belgian clock and the drafting board.
-  var clock = document.querySelector('[data-ft-clock]');
-  if (clock) {
+  var clocks = Array.prototype.slice.call(document.querySelectorAll('[data-ft-clock]'));
+  if (clocks.length) {
     var fmt = new Intl.DateTimeFormat('en-GB', {
       timeZone: 'Europe/Brussels', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
     });
-    var tick = function () { clock.textContent = fmt.format(new Date()); };
+    var tick = function () {
+      var t = fmt.format(new Date());
+      clocks.forEach(function (c) { c.textContent = t; });
+    };
     tick();
     setInterval(tick, 1000);
   }

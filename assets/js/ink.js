@@ -13,6 +13,9 @@
     { sel: '.ft-btn:not(.ft-btn-hot)', ink: '--content--brand', text: '--content--lime' },
     { sel: '.ft-btn-hot', ink: '--ft-ink', text: '--content--lime' },
     { sel: '.pj-lightbox-close', ink: '--content--paper', text: '--content--primary' },
+    { sel: '.ct-quick-btn.is-hot', ink: '--content--primary', text: '--content--lime' },
+    { sel: '.ct-quick-btn:not(.is-hot)', ink: '--content--brand', text: '--content--lime' },
+    { sel: '.ct-row-link', ink: '--content--brand', text: '--content--lime' },
   ];
   var SVG_NS = 'http://www.w3.org/2000/svg';
   var PAD = 14; // shape overhang so the displaced edge never shows along the button border
