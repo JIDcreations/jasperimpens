@@ -10,6 +10,12 @@
   const _0 = (i) => {
     return (i / 10) * parseFloat(getComputedStyle(document.querySelector("html")).fontSize);
   };
+  // Brand colors live in theme.css only; read them from there.
+  const _brand = (name) => getComputedStyle(document.documentElement).getPropertyValue("--brand-" + name).trim();
+  const _brandRgba = (name, a) => {
+    const c = _brand(name).slice(1);
+    return "rgba(" + [0, 2, 4].map((i) => parseInt(c.slice(i, i + 2), 16)).join(", ") + ", " + a + ")";
+  };
   function V0() {
     const g = window.innerWidth;
     let v = g > 991 ? "dsk" : window.innerWidth > 767 ? "tb" : "mb";
@@ -1132,13 +1138,8 @@
           this.hoverSquare = null;
           return;
         }
-        const n = getComputedStyle(document.documentElement);
-        const s =
-          n.getPropertyValue("--content--brand").trim() ||
-          n.getPropertyValue("--color--accent").trim() ||
-          "#3967bc";
-        this.accentRgb = this.hexToRgb(s, "#3967bc");
-        this.darkRgb = this.hexToRgb("#2e2e2e", "#2e2e2e");
+        this.accentRgb = this.hexToRgb(_brand("blue"));
+        this.darkRgb = this.hexToRgb(_brand("ink"));
         this.resize();
         window.addEventListener("resize", this.resize);
         document.addEventListener("mousemove", this.onMouseMove, {
@@ -1155,9 +1156,8 @@
           this.raf = requestAnimationFrame(this.render);
         }
       }
-      hexToRgb(x, n) {
-        const r = /^#[0-9a-f]{6}$/i.test(x) ? x : n;
-        const c = r.slice(1);
+      hexToRgb(x) {
+        const c = x.slice(1);
         return [parseInt(c.slice(0, 2), 16), parseInt(c.slice(2, 4), 16), parseInt(c.slice(4, 6), 16)];
       }
       resize() {
@@ -1474,7 +1474,7 @@
             x: y,
             y: _,
             scale: o0,
-            color: "rgba(57, 103, 188, " + (1 - G) + ")",
+            color: _brandRgba("blue", 1 - G),
           });
         }
         if (o && o.length) {
@@ -1677,13 +1677,13 @@
             const u = window.innerHeight;
             gsap.to(".loading-progress-item.item-bot", {
               y: this.deltaBotY,
-              backgroundColor: "#dbdbdb",
+              backgroundColor: _brand("gray"),
               duration: 0.4,
               ease: "cubic-bezier(1, 0, 0.44, 1)",
             });
             gsap.to(".loading-progress-item.item-top", {
               y: this.deltaTopY,
-              backgroundColor: "#dbdbdb",
+              backgroundColor: _brand("gray"),
               duration: 0.4,
               ease: "cubic-bezier(1, 0, 0.44, 1)",
               onUpdate: () => {
@@ -1889,9 +1889,8 @@
           return;
         }
         seen.add(u);
-        const root = getComputedStyle(document.documentElement);
         const restingColor = getComputedStyle(u).color;
-        const activeColor = (u.dataset.fillColor || "").trim() || root.getPropertyValue("--content--white").trim() || "#f6f6f6";
+        const activeColor = (u.dataset.fillColor || "").trim() || _brand("lime");
         const inkColor = getComputedStyle(bg).backgroundColor;
 
         const top = u.cloneNode(true);
@@ -3025,7 +3024,7 @@
             this.box.style.position = "absolute";
             this.box.style.top = f0.mousePos.y + "px";
             this.box.style.left = f0.mousePos.x + "px";
-            this.box.style.border = "1px solid #3967bc";
+            this.box.style.border = "1px solid " + _brand("blue");
             this.box.style.zIndex = "100";
             this.box.style.pointerEvents = "none";
             this.rulerWrap.prepend(this.box);
@@ -3100,7 +3099,7 @@
                 }
               }
               this.box.style.background =
-                "linear-gradient(" + J + ", rgba(57, 103, 188, 0.64) 0%, rgba(57, 103, 188, 0) 67.05%)";
+                "linear-gradient(" + J + ", " + _brandRgba("blue", 0.64) + " 0%, " + _brandRgba("blue", 0) + " 67.05%)";
               this.box.style.width = I + "px";
               this.box.style.height = Z + "px";
               this.box.style.left = k + "px";
@@ -3453,10 +3452,10 @@
           this.tlStickFade.fromTo(
             x.chars,
             {
-              color: "#dbdbdb",
+              color: _brand("gray"),
             },
             {
-              color: "#2e2e2e",
+              color: _brand("ink"),
               stagger: 0.03,
             },
           );

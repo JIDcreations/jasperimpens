@@ -40,11 +40,12 @@
 }
 .pj-h1 {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 9.6rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 0.92;
+  letter-spacing: var(--brand-tracking-title);
+  line-height: 1;
   text-transform: uppercase;
   text-wrap: balance;
   color: var(--wk-ink);
@@ -53,7 +54,7 @@
   margin: 2.4rem 0 0;
   color: var(--content--brand);
   font-size: 2.6rem;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1.15;
 }
 .pj-hero-facts {
@@ -80,7 +81,7 @@
 .pj-fact dd {
   margin: 0;
   font-size: 2rem;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--brand-tracking);
 }
 .pj-visit {
   display: flex;
@@ -91,7 +92,7 @@
   background-color: var(--wk-ink);
   color: var(--content--paper);
   font-size: 2rem;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--brand-tracking);
   transition: background-color 0.35s ease;
 }
 .pj-visit-ic {
@@ -137,11 +138,12 @@
 .pj-summary p {
   max-width: 34em;
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 4rem;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  word-spacing: var(--brand-word-spacing);
+  font-weight: 400;
+  letter-spacing: var(--brand-tracking-display);
+  line-height: 1.15;
   text-wrap: pretty;
 }
 
@@ -154,18 +156,19 @@
 }
 .pj-story-h {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 3.2rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: var(--brand-tracking-title);
   line-height: 1;
 }
 .pj-story-p {
   max-width: 62ch;
   margin: 0;
-  color: rgba(46, 46, 46, 0.85);
+  color: color-mix(in srgb, var(--brand-ink) 85%, transparent);
   font-size: 2rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1.4;
   text-wrap: pretty;
 }
@@ -317,11 +320,12 @@
   color: var(--wk-quiet);
 }
 .pj-next-name {
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 7.2rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: var(--brand-tracking-title);
+  line-height: 1;
   text-transform: uppercase;
   text-wrap: balance;
 }
@@ -351,7 +355,7 @@
 }
 .pj-lightbox::backdrop,
 .ps-player::backdrop {
-  background-color: rgba(30, 30, 30, 0.94);
+  background-color: color-mix(in srgb, var(--brand-ink) 94%, transparent);
 }
 .pj-lightbox[open],
 .ps-player[open] {
@@ -369,8 +373,8 @@
   right: 1.6rem;
   z-index: 2;
   padding: 1.2rem 1.8rem;
-  border: var(--size--border) solid rgba(246, 246, 246, 0.6);
-  background: rgba(30, 30, 30, 0.6);
+  border: var(--size--border) solid color-mix(in srgb, var(--brand-paper) 60%, transparent);
+  background: color-mix(in srgb, var(--brand-ink) 60%, transparent);
   color: var(--content--paper);
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;

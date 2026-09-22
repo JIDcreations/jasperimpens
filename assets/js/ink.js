@@ -4,14 +4,14 @@
   // the pointer enters and drains toward where it leaves, revealing a recolored copy of the label.
   // Standalone (no GSAP) so it runs on every page.
   var BUTTONS = [
-    { sel: '.wk-nav-item:not(.is-current)', ink: '--content--brand', text: '--content--paper' },
-    { sel: '.pj-video-btn', ink: '--content--brand', text: '--content--paper' },
-    { sel: '.pj-visit', ink: '--content--brand', text: '--content--paper' },
-    { sel: '.wk-empty-link', ink: '--wk-ink', text: '--content--paper' },
-    { sel: '.ps-follow', ink: '--wk-ink', text: '--content--paper' },
+    { sel: '.wk-nav-item:not(.is-current)', ink: '--content--brand', text: '--content--lime' },
+    { sel: '.pj-video-btn', ink: '--content--brand', text: '--content--lime' },
+    { sel: '.pj-visit', ink: '--content--brand', text: '--content--lime' },
+    { sel: '.wk-empty-link', ink: '--wk-ink', text: '--content--lime' },
+    { sel: '.ps-follow', ink: '--wk-ink', text: '--content--lime' },
     { sel: '.closing-btn', ink: '--content--paper', text: '--content--primary' },
-    { sel: '.ft-btn:not(.ft-btn-hot)', ink: '--content--brand', text: '--content--paper' },
-    { sel: '.ft-btn-hot', ink: '--ft-ink', text: '--content--paper' },
+    { sel: '.ft-btn:not(.ft-btn-hot)', ink: '--content--brand', text: '--content--lime' },
+    { sel: '.ft-btn-hot', ink: '--ft-ink', text: '--content--lime' },
     { sel: '.pj-lightbox-close', ink: '--content--paper', text: '--content--primary' },
   ];
   var SVG_NS = 'http://www.w3.org/2000/svg';
@@ -80,8 +80,9 @@
     return filter;
   }
 
-  function resolve(el, prop, fallback) {
-    return getComputedStyle(el).getPropertyValue(prop).trim() || fallback;
+  // Colors come from theme.css custom properties only; no hardcoded fallbacks.
+  function resolve(el, prop) {
+    return getComputedStyle(el).getPropertyValue(prop).trim();
   }
 
   function setup(u, cfg) {
@@ -98,7 +99,7 @@
     var shape = document.createElement('span');
     bg.className = 'ink-fx-bg';
     shape.className = 'ink-fx-shape';
-    shape.style.cssText = 'inset:-' + PAD + 'px;background-color:' + resolve(u, cfg.ink, '#3967bc');
+    shape.style.cssText = 'inset:-' + PAD + 'px;background-color:' + resolve(u, cfg.ink);
     var filter = createFilter();
     var disp = filter.querySelector('feDisplacementMap');
     bg.style.filter = 'url(#' + filter.id + ')';
@@ -117,7 +118,7 @@
     top.setAttribute('aria-hidden', 'true');
     top.setAttribute('tabindex', '-1');
     top.inert = true;
-    top.style.color = resolve(u, cfg.text, '#f6f6f6');
+    top.style.color = resolve(u, cfg.text);
 
     var syncing = false;
     var sync = function () {

@@ -1,0 +1,74 @@
+/* ==========================================================================
+   IMPENS brand theme — the single source of truth.
+   Source: assets/branding/ji.pdf
+
+   Rules
+   - These six colors are the ONLY colors allowed on the site.
+   - Space Mono is the ONLY typeface allowed on the site.
+   - Never hardcode a hex/rgb value or a font name anywhere else:
+     CSS uses var(--…), JS reads the variable via getComputedStyle.
+   - Transparency is allowed, but only as a tint of a brand color:
+     color-mix(in srgb, var(--brand-…) 40%, transparent)
+   Load this file before every other stylesheet.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Space Mono";
+  src: url(assets/fonts/SpaceMono-Regular.woff2) format("woff2");
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url(assets/fonts/SpaceMono-Italic.woff2) format("woff2");
+  font-weight: 100 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url(assets/fonts/SpaceMono-Bold.woff2) format("woff2");
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url(assets/fonts/SpaceMono-BoldItalic.woff2) format("woff2");
+  font-weight: 600 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  /* ---- Brand colors ---------------------------------------------------- */
+  --brand-paper: #f6f6f6; /* off-white — page background        */
+  --brand-sky: #c3d5e9; /* pale blue                            */
+  --brand-gray: #dbdbdb; /* light gray — rules, borders, panels */
+  --brand-lime: #eeff9e; /* lime — logo, highlights            */
+  --brand-blue: #4466b6; /* blue — accent, links, interactions */
+  --brand-ink: #2e2e2e; /* near-black — text, dark surfaces    */
+
+  /* ---- How the colors pair -------------------------------------------
+     paper  page background; ink for text, blue for interaction.
+     blue   links, active states, ink fills. Text ON blue is lime.
+     ink    dark surfaces. Text/accents ON ink are lime (or paper).
+     lime   never as text/lines on paper (no contrast). Use it as text on
+            blue or ink, or as a surface (highlight, marker) under ink.
+     sky    quiet surface on paper: hover rows, placeholders, tags.
+     gray   rules, borders, disabled.                                    */
+
+  /* ---- Brand typeface -------------------------------------------------- */
+  --brand-font: "Space Mono", monospace;
+  --brand-weight-regular: 400;
+  --brand-weight-bold: 700;
+  /* Space Mono is monospaced: every glyph gets the same cell, so narrow letters
+     (i, l, comma) leave gaps that grow with size. Body text stays at 0; display
+     type is pulled in a little. Bold caps can't go as tight (W and M collide). */
+  --brand-tracking: 0; /* body and small text */
+  --brand-tracking-display: -0.04em; /* large sentences, regular weight */
+  --brand-tracking-title: -0.02em; /* large bold titles */
+  /* A monospaced space is a full character wide; pull word gaps in on display type. */
+  --brand-word-spacing: -0.3em;
+}

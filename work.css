@@ -4,8 +4,8 @@
    ============================================================ */
 .wk {
   --wk-ink: var(--content--primary);
-  --wk-rule: rgba(46, 46, 46, 0.2);
-  --wk-quiet: rgba(46, 46, 46, 0.68);
+  --wk-rule: color-mix(in srgb, var(--brand-ink) 20%, transparent);
+  --wk-quiet: color-mix(in srgb, var(--brand-ink) 68%, transparent);
   --wk-ease: cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--wk-ink);
   text-decoration: none;
@@ -71,7 +71,7 @@
 }
 .wk-nav-item.is-current {
   background-color: var(--content--brand);
-  color: var(--content--paper);
+  color: var(--content--lime);
 }
 .wk a:focus-visible,
 .wk button:focus-visible {
@@ -94,11 +94,12 @@
 }
 .wk-h1 {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 11.5rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 0.92;
+  letter-spacing: var(--brand-tracking-title);
+  line-height: 1;
   text-transform: uppercase;
   color: var(--wk-ink);
 }
@@ -158,7 +159,7 @@
   color: var(--wk-ink);
   font: inherit;
   font-size: 2rem;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--brand-tracking);
   text-align: left;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease, padding 0.5s var(--wk-ease);
@@ -171,6 +172,7 @@
 }
 .wk-filter:hover,
 .wk-filter:focus-visible {
+  background-color: var(--content--blue-pale);
   color: var(--content--brand);
   padding-left: 3.2rem;
 }
@@ -290,15 +292,18 @@ a.wk-link:focus-visible .wk-corner {
 }
 .wk-name {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 3.6rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: var(--brand-tracking-title);
   line-height: 1;
   color: var(--wk-ink);
 }
 .wk-card.is-feature .wk-name {
   font-size: 5.2rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
 }
 .wk-arrow {
   display: grid;
@@ -336,7 +341,7 @@ a.wk-link:focus-visible .wk-arrow svg {
   margin: 0;
   color: var(--content--brand);
   font-size: 1.8rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1.25;
 }
 .wk-card.is-feature .wk-quote {
@@ -364,7 +369,7 @@ a.wk-link:focus-visible .wk-arrow svg {
 .wk-tags li {
   padding: 0.5rem 0.9rem;
   border: var(--size--border) solid var(--wk-rule);
-  font-family: Geistmono, Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 1.1rem;
   font-weight: 500;
   line-height: 1;
@@ -386,11 +391,12 @@ a.wk-link:focus-visible .wk-arrow svg {
 }
 .wk-empty-title {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 5.6rem;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  word-spacing: var(--brand-word-spacing);
+  font-weight: 400;
+  letter-spacing: var(--brand-tracking-display);
+  line-height: 1.15;
   text-transform: uppercase;
 }
 .wk-empty-text {
@@ -405,7 +411,7 @@ a.wk-link:focus-visible .wk-arrow svg {
   background-color: var(--content--brand);
   color: var(--content--paper);
   font-size: 1.6rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   transition: background-color 0.3s ease;
 }
 .wk .wk-empty-link:hover,

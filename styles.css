@@ -1,7 +1,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  font-family: sans-serif;
+  font-family: var(--brand-font);
 }
 body {
   margin: 0;
@@ -21,7 +21,7 @@ progress {
   display: none;
 }
 a {
-  background-color: #0000;
+  background-color: transparent;
 }
 a:active,
 a:hover {
@@ -50,7 +50,7 @@ svg:not(:root) {
   overflow: hidden;
 }
 code {
-  font-family: monospace;
+  font-family: var(--brand-font);
   font-size: 1em;
 }
 button,
@@ -95,7 +95,7 @@ body {
   background-color: var(--content--paper);
   min-height: 100%;
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 14px;
   line-height: 20px;
 }
@@ -184,77 +184,14 @@ button,
 .rich-text:after {
   clear: both;
 }
-@font-face {
-  font-family: Geistmono;
-  src: url(assets/fonts/GeistMono-Medium.woff2) format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-Regular.woff2) format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-Bold.woff2) format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-SemiBold.woff2) format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-Medium.woff2) format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-BoldItalic.woff2) format("woff2");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-MediumItalic.woff2) format("woff2");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-Italic.woff2) format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: BT Grotesk;
-  src: url(assets/fonts/BTGrotesk-SemiBoldItalic.woff2) format("woff2");
-  font-weight: 600;
-  font-style: italic;
-  font-display: swap;
-}
 :root {
-  /* Palette: the only six colors allowed on the site. */
-  --content--paper: #f6f6f6;
-  --content--blue-pale: #c0d6ed;
-  --content--gray: #dbdbdb;
-  --content--lime: #ebff90;
-  --content--brand: #3967bc;
-  --content--primary: #2e2e2e;
+  /* Palette: aliases of the brand tokens in theme.css. Never add a raw color here. */
+  --content--paper: var(--brand-paper);
+  --content--blue-pale: var(--brand-sky);
+  --content--gray: var(--brand-gray);
+  --content--lime: var(--brand-lime);
+  --content--brand: var(--brand-blue);
+  --content--primary: var(--brand-ink);
 
   /* Role aliases (secondary text is blue). */
   --content--white: var(--content--paper);
@@ -289,11 +226,7 @@ button,
 }
 body {
   color: var(--content--primary);
-  font-family:
-    Arial,
-    Helvetica Neue,
-    Helvetica,
-    sans-serif;
+  font-family: var(--brand-font);
   font-size: 14px;
   line-height: 20px;
 }
@@ -330,12 +263,9 @@ img {
 }
 .body {
   color: var(--content--terriary);
-  letter-spacing: -0.02em;
-  background-color: #0000;
-  font-family:
-    BT Grotesk,
-    Arial,
-    sans-serif;
+  letter-spacing: var(--brand-tracking);
+  background-color: transparent;
+  font-family: var(--brand-font);
   font-size: 1.6rem;
   font-weight: 500;
   line-height: 1.3;
@@ -460,8 +390,7 @@ img {
 }
 .line.line-vertical.home-hero-curor-line {
   opacity: 0.2;
-  mix-blend-mode: difference;
-  background-color: var(--content--gray);
+  background-color: var(--content--primary);
 }
 .line.line-vertical.loading-ruler-line {
   opacity: 0.32;
@@ -475,8 +404,7 @@ img {
 }
 .line.line-horizital.left.right.home-hero-curor-line {
   opacity: 0.2;
-  mix-blend-mode: difference;
-  background-color: var(--content--gray);
+  background-color: var(--content--primary);
 }
 .line.line-horizital.left.right.loading-ruler-line {
   opacity: 0.32;
@@ -497,7 +425,7 @@ img {
   right: 0;
 }
 .line.line-dash {
-  background-color: #0000;
+  background-color: transparent;
   background-image: url(assets/images/border-vertical.svg);
   background-position: 0 0;
   background-repeat: repeat-y;
@@ -548,13 +476,13 @@ img {
   display: flex;
 }
 .txt {
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
 }
 .txt.txt-font-mono {
   box-sizing: content-box;
   letter-spacing: 0;
   text-transform: uppercase;
-  font-family: Geistmono, Arial, sans-serif;
+  font-family: var(--brand-font);
   font-weight: 500;
 }
 .txt.txt-font-mono.txt-10 {
@@ -596,7 +524,7 @@ img {
   overflow: hidden;
 }
 .header-menu-item:hover {
-  color: var(--content--white);
+  color: var(--content--lime);
 }
 .header-menu-item.is-current {
   pointer-events: none;
@@ -606,7 +534,7 @@ img {
   z-index: 0;
   text-align: left;
   cursor: pointer;
-  background-color: #0000;
+  background-color: transparent;
 }
 .loading {
   z-index: 2147483647;
@@ -700,7 +628,8 @@ img {
   position: relative;
 }
 .heading {
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking-title);
+  word-spacing: var(--brand-word-spacing);
   text-transform: uppercase;
   margin-top: 0;
   margin-bottom: 0;
@@ -708,21 +637,28 @@ img {
 }
 .heading.h1 {
   font-size: 5.6rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   line-height: 1;
 }
 .heading.h3 {
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking-title);
   font-size: 4rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
   line-height: 1;
 }
 .heading.h2 {
   font-size: 4.8rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   font-weight: 600;
   line-height: 1;
 }
 .heading.h4 {
   font-size: 3.2rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   font-weight: 600;
   line-height: 1;
 }
@@ -1001,6 +937,12 @@ img {
   color: var(--content--gray);
   margin-bottom: 3.2rem;
 }
+/* The statement reads as a sentence, not a shout: sentence case, regular weight. */
+.home-intro-content-title .heading {
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: var(--brand-tracking-display);
+}
 @media screen and (min-width: 992px) {
   .home-intro-content {
     padding: 6.4rem 6.4rem 4.8rem;
@@ -1009,9 +951,10 @@ img {
     margin-bottom: 4.8rem;
   }
   .home-intro-content-title .heading.h3 {
-    font-size: min(7rem, 8vh);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
+    font-size: min(5.6rem, 6.4vh);
+    word-spacing: var(--brand-word-spacing);
+    line-height: 1.12;
+    letter-spacing: var(--brand-tracking-display);
   }
 }
 .home-platform-content-number {
@@ -1322,7 +1265,7 @@ img {
 }
 .input {
   border: var(--size--border) solid var(--content--border);
-  background-color: #0000;
+  background-color: transparent;
   height: 4.8rem;
   margin-bottom: 0;
   padding: 0.8rem 0.8rem 0.8rem 1.6rem;
@@ -2221,7 +2164,7 @@ img {
 .cookie-banner-reject {
   color: var(--content--primary);
   cursor: pointer;
-  background-color: #0000;
+  background-color: transparent;
   align-self: center;
   transition: border-color 0.4s;
 }
@@ -2238,7 +2181,7 @@ img {
 .cookie-banner-description-text a {
   color: var(--content--brand);
   text-transform: uppercase;
-  font-family: Geistmono, Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 1.4rem;
   font-weight: 500;
   line-height: 1.3;
@@ -2247,7 +2190,7 @@ img {
 .footer-copyright-txt-block p {
   text-transform: uppercase;
   margin-bottom: 0;
-  font-family: Geistmono, Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 1.4rem;
 }
 .footer-copyright-txt-block a {
@@ -2341,16 +2284,22 @@ img {
   }
   .heading.h3 {
     font-size: 3.2rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   }
   .heading.h4 {
     line-height: 1.2;
   }
   .heading.tb-h3 {
     font-size: 4rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
     line-height: 1em;
   }
   .heading.tb-h4 {
     font-size: 3.2rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
     line-height: 1em;
   }
   .heading.tb-h5 {
@@ -2757,6 +2706,8 @@ img {
   }
   .heading.mb-h2 {
     font-size: 3.2rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
     line-height: 1em;
   }
   .heading.mb-h3 {
@@ -3583,17 +3534,18 @@ html {
   }
 }
 ::selection {
-  background-color: var(--content--brand);
-  color: var(--content--paper);
+  background-color: var(--content--lime);
+  color: var(--content--primary);
 }
 :root {
   --loading-logo-dasharray: 0;
-  --bg-img: url("assets/images/paper-texture.svg");
+  --bg-img: none; /* flat brand paper; the old grain texture added off-brand greys */
   --bg-grid: url("assets/images/bg-deco-soft.svg");
 }
 .body,
 .bg-global,
 .loading-main {
+  background-color: var(--brand-paper);
   background-image: var(--bg-img) !important;
   background-repeat: repeat;
   background-size: auto;
@@ -4092,7 +4044,7 @@ html {
 .home-about {
   --about-stage: var(--size--max-screen-height);
   --about-scroll: 140dvh;
-  --about-muted: rgba(46, 46, 46, 0.32);
+  --about-muted: color-mix(in srgb, var(--brand-ink) 32%, transparent);
   position: relative;
   height: calc(var(--about-stage) + var(--about-scroll));
 }
@@ -4158,7 +4110,8 @@ html {
 .home-about-title {
   color: var(--content--primary);
   font-size: 12rem;
-  letter-spacing: -0.03em;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
 }
 .home-about-copy {
   display: grid;
@@ -4243,6 +4196,8 @@ html {
   }
   .home-about-title {
     font-size: 4.8rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   }
   .home-about-copy {
     padding-top: 1.6rem;
@@ -4258,6 +4213,8 @@ html {
   }
   .home-about-title {
     font-size: 4rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   }
   .home-about-copy {
     padding: 1.2rem 1.6rem;
@@ -4280,7 +4237,7 @@ html {
    Blue ink floods the column you point at (see UseCase in main.js).
 ========================================================= */
 .home-work {
-  --work-muted: rgba(46, 46, 46, 0.72);
+  --work-muted: color-mix(in srgb, var(--brand-ink) 72%, transparent);
   --work-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 .home-work-head {
@@ -4298,9 +4255,10 @@ html {
   margin-top: 1.2rem;
   color: var(--content--primary);
   font-size: 4.8rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  line-height: 1;
+  letter-spacing: var(--brand-tracking-title);
   text-wrap: balance;
 }
 .home-work-hint {
@@ -4387,7 +4345,7 @@ html {
 .is-open .home-work-arrow {
   background-color: var(--content--brand);
   border-color: var(--content--brand);
-  color: var(--content--white);
+  color: var(--content--lime);
 }
 
 /* folded: vertical title */
@@ -4396,9 +4354,10 @@ html {
   left: 1.6rem;
   bottom: 2rem;
   font-size: 4.4rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--brand-tracking-title);
   white-space: nowrap;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
@@ -4442,7 +4401,7 @@ html {
   min-height: 0;
   margin: 8.8rem 3.2rem 0;
   overflow: hidden;
-  background-color: var(--content--gray);
+  background-color: var(--content--blue-pale);
 }
 .home-work-photo img {
   position: absolute;
@@ -4451,9 +4410,11 @@ html {
   height: 100%;
   max-width: none;
   object-fit: cover;
-  filter: grayscale(1);
   clip-path: inset(0 0 0 0);
   transition: clip-path 1s var(--work-ease);
+}
+.home-work-photo img.is-top {
+  object-position: 50% 20%;
 }
 .is-reveal .home-work-photo img {
   clip-path: inset(100% 0 0 0);
@@ -4466,9 +4427,10 @@ html {
 .home-work-name {
   display: block;
   font-size: 6.4rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
+  line-height: 1;
+  letter-spacing: var(--brand-tracking-title);
 }
 .home-work-desc {
   display: block;
@@ -4506,13 +4468,13 @@ html {
 .home-work-col-inner.is-ink-top {
   z-index: 2;
   pointer-events: none;
-  color: var(--content--white);
+  color: var(--content--lime);
 }
 .is-ink-top *,
 .is-ink-top .home-work-top .txt,
 .is-ink-top .home-work-desc {
-  color: var(--content--white) !important;
-  border-color: rgba(246, 246, 246, 0.35) !important;
+  color: var(--content--lime) !important;
+  border-color: color-mix(in srgb, var(--brand-lime) 40%, transparent) !important;
 }
 .is-ink-top .home-work-arrow {
   background-color: transparent !important;
@@ -4575,6 +4537,8 @@ html {
     grid-column: 1;
     grid-row: 2;
     font-size: 5.6rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
     writing-mode: horizontal-tb;
     transform: none;
     white-space: normal;
@@ -4612,12 +4576,16 @@ html {
   }
   .home-work-title {
     font-size: 3.6rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   }
   .home-work-col {
     padding: 1.8rem 1.6rem;
   }
   .home-work-fold {
     font-size: 3.2rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
   }
   .home-work-arrow {
     width: 4.4rem;
@@ -4648,14 +4616,14 @@ html {
   color: var(--content--paper);
 }
 .closing .line {
-  background-color: rgba(246, 246, 246, 0.14);
+  background-color: color-mix(in srgb, var(--brand-paper) 14%, transparent);
 }
 .closing-tick {
   z-index: 3;
   position: absolute;
   width: 1.2rem;
   height: 1.2rem;
-  color: rgba(246, 246, 246, 0.32);
+  color: color-mix(in srgb, var(--brand-paper) 32%, transparent);
 }
 .closing-tick.tl {
   top: 1.6rem;
@@ -4682,7 +4650,7 @@ html {
 .closing-sub {
   max-width: 46rem;
   margin-top: 1.6rem;
-  color: rgba(246, 246, 246, 0.6);
+  color: color-mix(in srgb, var(--brand-paper) 60%, transparent);
 }
 .closing-email {
   display: inline-flex;
@@ -4695,10 +4663,11 @@ html {
 .closing-email-text {
   position: relative;
   padding-bottom: 0.6rem;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 4.8rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--brand-tracking-title);
   line-height: 1;
 }
 .closing-email-text:after {
@@ -4708,7 +4677,7 @@ html {
   right: 0;
   bottom: 0;
   height: var(--size--border);
-  background-color: rgba(246, 246, 246, 0.32);
+  background-color: color-mix(in srgb, var(--brand-paper) 32%, transparent);
   transition: background-color 0.4s ease;
 }
 .closing-email-arrow {
@@ -4717,7 +4686,7 @@ html {
   place-items: center;
   width: 7.2rem;
   height: 7.2rem;
-  border: var(--size--border) solid rgba(246, 246, 246, 0.32);
+  border: var(--size--border) solid color-mix(in srgb, var(--brand-paper) 32%, transparent);
   border-radius: 50%;
   color: var(--content--paper);
   transition:
@@ -4793,10 +4762,10 @@ html {
   align-items: center;
   min-height: 4.8rem;
   padding: 0 2.4rem;
-  border: var(--size--border) solid rgba(246, 246, 246, 0.4);
+  border: var(--size--border) solid color-mix(in srgb, var(--brand-paper) 40%, transparent);
   color: var(--content--paper);
   font-size: 1.6rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
@@ -4836,9 +4805,9 @@ html {
 .closing-links a {
   color: var(--content--paper);
   font-size: 1.6rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   text-decoration: underline;
-  text-decoration-color: rgba(246, 246, 246, 0.32);
+  text-decoration-color: color-mix(in srgb, var(--brand-paper) 32%, transparent);
   text-underline-offset: 0.4rem;
   transition: color 0.3s ease, text-decoration-color 0.3s ease;
 }
@@ -4850,7 +4819,7 @@ html {
 .closing-agency {
   max-width: 44rem;
   margin-top: 2.4rem;
-  color: rgba(246, 246, 246, 0.6);
+  color: color-mix(in srgb, var(--brand-paper) 60%, transparent);
 }
 .closing-agency a {
   color: var(--content--paper);
@@ -4868,8 +4837,8 @@ html {
    ============================================================ */
 .ft {
   --ft-ink: var(--content--primary);
-  --ft-rule: rgba(46, 46, 46, 0.18);
-  --ft-quiet: rgba(46, 46, 46, 0.68);
+  --ft-rule: color-mix(in srgb, var(--brand-ink) 18%, transparent);
+  --ft-quiet: color-mix(in srgb, var(--brand-ink) 68%, transparent);
   position: relative;
   color: var(--ft-ink);
   border-top: var(--size--border) solid var(--ft-ink);
@@ -4903,12 +4872,13 @@ html {
 .ft-grid > :nth-child(4) { grid-area: time; border-bottom: 0; }
 .ft-grid > :nth-child(5) { grid-area: status; border-bottom: 0; }
 .ft-statement-text {
-  max-width: 14ch;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  max-width: 18ch;
+  font-family: var(--brand-font);
   font-size: clamp(3.2rem, 4.6vw, 6.4rem);
-  font-weight: 600;
-  letter-spacing: -0.035em;
-  line-height: 1;
+  word-spacing: var(--brand-word-spacing);
+  font-weight: 400;
+  letter-spacing: var(--brand-tracking-display);
+  line-height: 1.15;
   text-wrap: balance;
 }
 .ft-col {
@@ -4924,7 +4894,7 @@ html {
 .ft-link {
   position: relative;
   font-size: 1.8rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   color: var(--ft-ink);
   text-decoration: none;
   transition: color 0.3s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -4935,24 +4905,25 @@ html {
   transform: translateX(0.6rem);
 }
 .ft-clock {
-  font-family: Geistmono, Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 2.4rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
 }
 .ft-status-text {
   display: flex;
   align-items: center;
   gap: 1rem;
   font-size: 1.8rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
 }
 .ft-dot {
   flex-shrink: 0;
   width: 0.9rem;
   height: 0.9rem;
-  background-color: var(--content--brand);
+  background-color: var(--content--lime);
+  box-shadow: inset 0 0 0 var(--size--border) var(--content--primary);
   animation: ft-blink 2.4s steps(1, end) infinite;
 }
 @keyframes ft-blink {
@@ -4972,7 +4943,7 @@ html {
   border: var(--size--border) solid var(--ft-ink);
   color: var(--ft-ink);
   font-size: 1.5rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
@@ -4984,7 +4955,7 @@ html {
 .ft-btn-hot {
   background-color: var(--content--brand);
   border-color: var(--content--brand);
-  color: var(--content--paper);
+  color: var(--content--lime);
 }
 .ft-btn-hot:hover,
 .ft-btn-hot:focus-visible {
@@ -5012,23 +4983,45 @@ html {
   background-repeat: no-repeat;
   background-position: 0 0, 0 0;
 }
+/* The brand logo, cut into one slice per letter (i m p e n s .) so each
+   fills on its own. Slices share one shape (#ft-logo-shape) and tile seamlessly. */
 .ft-word {
+  position: relative;
   display: flex;
-  justify-content: space-between;
+  align-items: flex-start;
   width: 100%;
-  font-family: "BT Grotesk", Arial, sans-serif;
-  font-weight: 700;
-  font-size: 22.5vw;
-  letter-spacing: -0.045em;
-  line-height: 0.82;
+}
+/* One ink layer under the whole logo, clipped to its shape, so the fill
+   bleeds across letters and never shows the slice seams. Drawn by footer.js. */
+.ft-ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.ft-ink circle {
+  fill: var(--brand-blue);
+}
+.ft-logo-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 .ft-letter {
-  --p: 0;
   position: relative;
   display: block;
-  color: rgb(57 103 188 / var(--p));
-  -webkit-text-stroke: 1px rgba(46, 46, 46, 0.78);
-  transition: color 0.18s linear;
+  flex: none;
+}
+.ft-letter svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  fill: none;
+  stroke: color-mix(in srgb, var(--brand-ink) 78%, transparent);
+  stroke-width: 1px;
 }
 .ft-letter:before {
   content: attr(data-w) "px";
@@ -5046,7 +5039,7 @@ html {
   background-repeat: no-repeat;
   color: var(--content--brand);
   -webkit-text-stroke: 0;
-  font-family: Geistmono, Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 1.2rem;
   font-weight: 500;
   letter-spacing: 0;
@@ -5139,7 +5132,7 @@ html {
 }
 .ft-stamp b {
   padding: 0.3rem 0.6rem;
-  background-color: var(--content--paper);
+  background-color: var(--content--blue-pale);
   border: var(--size--border) solid var(--content--brand);
   color: var(--content--brand);
   font-weight: 500;
@@ -5211,7 +5204,6 @@ html {
 @media only screen and (max-width: 767px) {
   .ft-cell { padding: 2rem 1.6rem 2.4rem; }
   .ft-board { padding: 4rem 1.6rem 4.4rem; }
-  .ft-word { font-size: 21.5vw; }
   .ft-letter:before { top: -2.4rem; }
   .ft-readout { left: 1.6rem; }
   .ft-hint { right: auto; left: 1.6rem; }
@@ -5278,9 +5270,10 @@ html {
   .has-title {
     margin: 0;
     font-size: 4.8rem;
-    line-height: 0.95;
+  word-spacing: var(--brand-word-spacing);
+    line-height: 1;
     text-transform: uppercase;
-    letter-spacing: -0.04em;
+    letter-spacing: var(--brand-tracking-title);
   }
   .has-copy {
     max-width: 52ch;
@@ -5412,4 +5405,33 @@ html {
 .pj-visit:hover .ink-fx-top .pj-visit-ic svg,
 .pj-visit:focus-visible .ink-fx-top .pj-visit-ic svg {
   transform: rotate(-45deg);
+}
+
+/* Brand logo (assets/branding/Logo), inlined in every nav. Color follows the link. */
+.brand-logo {
+  display: block;
+  height: 3.2rem;
+  width: auto;
+  aspect-ratio: 227.54 / 67.61;
+  fill: currentColor;
+}
+.header-logo-item .brand-logo,
+.wk-brand .brand-logo {
+  color: var(--content--brand);
+}
+/* Bigger mark without growing the header: the overhang eats into its padding. */
+.header-logo-item .brand-logo,
+.wk-brand .brand-logo {
+  height: 3.4rem;
+  margin: -0.5rem 0;
+}
+.header-logo-inner .header-logo-item.item-txt {
+  width: auto;
+}
+@media screen and (max-width: 767px) {
+  .header-logo-item .brand-logo,
+  .wk-brand .brand-logo {
+    height: 2.8rem;
+    margin: -0.2rem 0;
+  }
 }

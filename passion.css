@@ -16,15 +16,18 @@
 }
 .wk .ps-hero .wk-h1 {
   font-size: 13rem;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
 }
 .ps-lede {
   max-width: 24ch;
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 3.2rem;
-  font-weight: 500;
-  letter-spacing: -0.035em;
-  line-height: 1.12;
+  word-spacing: var(--brand-word-spacing);
+  font-weight: 400;
+  letter-spacing: var(--brand-tracking-display);
+  line-height: 1.15;
   text-wrap: balance;
 }
 .ps-hero-photo {
@@ -46,19 +49,20 @@
 
 .ps-h2 {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 5.6rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
+  letter-spacing: var(--brand-tracking-title);
+  line-height: 1;
   text-transform: uppercase;
 }
 .ps-p {
   max-width: 46ch;
   margin: 0;
-  color: rgba(46, 46, 46, 0.85);
+  color: color-mix(in srgb, var(--brand-ink) 85%, transparent);
   font-size: 1.9rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1.4;
   text-wrap: pretty;
 }
@@ -153,38 +157,40 @@
 .ps-fact-grad .ps-fact-h {
   max-width: 14ch;
   font-size: 7.2rem;
-  letter-spacing: -0.045em;
-  line-height: 0.92;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
+  line-height: 1;
   text-wrap: balance;
 }
 .ps-fact-grad .ps-fact-t {
   max-width: 44ch;
-  color: rgba(246, 246, 246, 0.78);
+  color: color-mix(in srgb, var(--brand-paper) 78%, transparent);
   font-size: 1.9rem;
 }
 .ps-fact-n {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 12rem;
+  word-spacing: var(--brand-word-spacing);
   font-weight: 600;
-  letter-spacing: -0.05em;
-  line-height: 0.85;
+  letter-spacing: var(--brand-tracking-title);
+  line-height: 1;
   color: var(--content--brand);
 }
 .ps-fact-h {
   margin: 0;
-  font-family: "BT Grotesk", Arial, sans-serif;
+  font-family: var(--brand-font);
   font-size: 3rem;
   font-weight: 600;
-  letter-spacing: -0.035em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1;
 }
 .ps-fact-t {
   max-width: 38ch;
   margin: 0;
-  color: rgba(46, 46, 46, 0.85);
+  color: color-mix(in srgb, var(--brand-ink) 85%, transparent);
   font-size: 1.7rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1.4;
   text-wrap: pretty;
 }
@@ -215,7 +221,8 @@
 }
 .ps-facts-grid > :nth-child(6) .ps-fact-h {
   font-size: 5.6rem;
-  letter-spacing: -0.04em;
+  word-spacing: var(--brand-word-spacing);
+  letter-spacing: var(--brand-tracking-title);
 }
 .ps-facts-grid > :nth-child(6) .ps-fact-t {
   font-size: 2rem;
@@ -242,7 +249,7 @@
   background-color: var(--content--brand);
   color: var(--content--paper);
   font-size: 1.8rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   transition: background-color 0.3s ease;
 }
 .wk a.ps-follow:hover,
@@ -328,13 +335,13 @@
 }
 .ps-reel-cap {
   font-size: 1.7rem;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--brand-tracking);
   line-height: 1.2;
 }
 .ps-player video {
   max-width: 96vw;
   max-height: 92vh;
-  background-color: #000;
+  background-color: var(--brand-ink);
 }
 
 @media only screen and (max-width: 991px) {
