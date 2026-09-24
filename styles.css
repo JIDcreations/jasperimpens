@@ -1579,6 +1579,14 @@ img {
   bottom: 22%;
   left: 50%;
 }
+.home-hero-img-deco.item3 {
+  width: 25.6rem;
+  padding-top: 4.8rem;
+  padding-right: 3.2rem;
+  display: flex;
+  bottom: 58%;
+  left: 34%;
+}
 .home-hero-img-deco-inner {
   z-index: 2;
   grid-column-gap: 0.4rem;
@@ -3823,6 +3831,19 @@ html {
 .home-hero-img-deco.active .home-hero-img-deco-inner,
 .home-hero-img-deco.active .home-hero-img-deco-ic {
   opacity: 1;
+}
+/* Instagram bullet: only clickable once opened */
+.home-hero-img-deco-link {
+  pointer-events: none;
+  text-decoration: none;
+}
+.home-hero-img-deco.active .home-hero-img-deco-link {
+  pointer-events: auto;
+  cursor: pointer;
+}
+.home-hero-img-deco.active .home-hero-img-deco-link .txt:last-child {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
 }
 .home-usecase-faq-item .line.top {
   display: none;

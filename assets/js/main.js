@@ -2986,7 +2986,32 @@
             .find(".home-hero-img-deco")
             .on("click", function () {
               $(this).removeClass("active");
+              delete this.dataset.hoverOpen;
             });
+          $(this.el)
+            .find(".home-hero-img-deco-link")
+            .on("click mousedown touchstart", (e) => e.stopPropagation());
+          // Hover open/close on top of drag-to-open. Hover only closes what it opened,
+          // so bullets revealed by the drag box stay open.
+          if (window.matchMedia("(hover: hover)").matches) {
+            $(this.el)
+              .find(".home-hero-img-deco-ic")
+              .on("mouseenter", function () {
+                const deco = $(this).closest(".home-hero-img-deco");
+                if (!deco.hasClass("active")) {
+                  deco.addClass("active");
+                  deco.get(0).dataset.hoverOpen = "1";
+                }
+              });
+            $(this.el)
+              .find(".home-hero-img-deco")
+              .on("mouseleave", function () {
+                if (this.dataset.hoverOpen) {
+                  $(this).removeClass("active");
+                  delete this.dataset.hoverOpen;
+                }
+              });
+          }
         }
         initRuler() {
           let x = $(this.el).find(".home-hero-img-wrap").get(0);
@@ -3117,6 +3142,7 @@
                     $(".home-hero-interact").addClass("hidden");
                   }
                   $(m).addClass("active");
+                  delete m.dataset.hoverOpen;
                 }
               });
             }
