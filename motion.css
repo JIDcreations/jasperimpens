@@ -1,0 +1,123 @@
+/* ============================================================
+   Motion page: a calm grid of short loops. Every tile has the
+   same 16:9 frame, only on-screen tiles play (motion.js), and
+   hovering one tile quiets the rest.
+   ============================================================ */
+.mo-group {
+  border-bottom: var(--size--border) solid var(--wk-rule);
+}
+.mo-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) auto;
+  align-items: baseline;
+  gap: 3.2rem;
+  padding: 4rem 3.2rem 2.4rem;
+}
+.wk .mo-lede,
+.wk .mo-count {
+  margin: 0;
+  color: var(--wk-quiet);
+}
+
+.mo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--size--border);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background-color: var(--wk-rule);
+  border-top: var(--size--border) solid var(--wk-rule);
+}
+.mo-grid[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.mo-tile {
+  background-color: var(--content--paper);
+}
+.mo-btn {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: zoom-in;
+}
+.mo-frame {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background-color: var(--brand-ink);
+}
+.mo-frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.1s var(--wk-ease), opacity 0.5s ease;
+}
+.mo-cap {
+  display: flex;
+  align-items: baseline;
+  gap: 1.2rem;
+  padding: 1.4rem 2rem 1.6rem;
+}
+.wk .mo-num,
+.wk .mo-kind {
+  color: var(--wk-quiet);
+}
+.mo-name {
+  font-size: 1.8rem;
+  letter-spacing: var(--brand-tracking);
+  transition: color 0.3s ease;
+}
+.mo-kind {
+  margin-left: auto;
+  white-space: nowrap;
+}
+.mo-btn:hover .mo-name,
+.mo-btn:focus-visible .mo-name {
+  color: var(--content--brand);
+}
+.mo-btn:hover video,
+.mo-btn:focus-visible video {
+  transform: scale(1.025);
+}
+.mo-btn:focus-visible {
+  outline: 2px solid var(--content--brand);
+  outline-offset: -2px;
+}
+/* One thing moves at a time: hovering a tile dims its neighbours */
+@media (hover: hover) {
+  .mo-grid:has(.mo-btn:hover) .mo-btn:not(:hover) video {
+    opacity: 0.35;
+  }
+}
+
+.mo-player video {
+  max-width: min(96vw, 190rem);
+  max-height: 88vh;
+  background-color: var(--brand-ink);
+}
+
+@media only screen and (max-width: 991px) {
+  .mo-head { grid-template-columns: minmax(0, 1fr) auto; gap: 0.8rem 1.6rem; }
+  .mo-lede { grid-column: 1 / -1; grid-row: 2; }
+  .mo-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* odd counts: the last tile spans the row instead of leaving a hole */
+  .mo-grid[data-count="3"] .mo-tile:last-child { grid-column: 1 / -1; }
+}
+@media only screen and (max-width: 767px) {
+  .mo-head { padding: 3.2rem 1.6rem 2rem; }
+  .mo-grid,
+  .mo-grid[data-count="2"] { grid-template-columns: minmax(0, 1fr); }
+  .mo-cap { padding: 1.2rem 1.6rem 1.4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mo-frame video { transition-duration: 0.01s !important; }
+}
