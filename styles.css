@@ -5456,3 +5456,50 @@ html {
     margin: -0.2rem 0;
   }
 }
+
+/* Mobile nav (home): the menu drops as a full-width panel under the whole header,
+   rows are real tap targets, and the burger turns into an X. */
+@media screen and (max-width: 767px) {
+  .header-menu-wrap,
+  .header-menu-inner {
+    position: static;
+  }
+  .header-menu.bg-global {
+    left: calc(var(--size--border) * -1);
+    right: calc(var(--size--border) * -1);
+    width: auto;
+    border-bottom: var(--size--border) solid var(--content--border);
+  }
+  .header-menu-item {
+    display: flex;
+    align-items: center;
+    min-height: 5.6rem;
+  }
+  .header-menu-item > .btn-fill {
+    width: 100%;
+  }
+  .header-menu-item-wrap:last-child .header-menu-item {
+    border-bottom: 0;
+  }
+  .header-menu-btn-ic {
+    gap: 0.3rem;
+    width: 1.6rem;
+  }
+  .header-menu-btn-ic-line {
+    transition: transform 0.4s ease, opacity 0.2s ease;
+  }
+  .header-menu-btn.active .header-menu-btn-ic-line:first-child {
+    transform: translateY(calc(0.3rem + var(--size--border))) rotate(45deg);
+  }
+  .header-menu-btn.active .header-menu-btn-ic-line:nth-child(2) {
+    transform: rotate(-45deg);
+  }
+  .header-menu-btn.active .header-menu-btn-ic-line:last-child {
+    transform: none;
+    opacity: 0;
+  }
+  /* the old outline logo needed a stroke; on the filled mark it smudges */
+  .header-logo-item .brand-logo path {
+    stroke: none;
+  }
+}
