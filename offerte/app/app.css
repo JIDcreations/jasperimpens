@@ -1,0 +1,766 @@
+/* Interface van de tool. Gebruikt de IMPENS-tokens uit theme.css.
+   De offerte zelf wordt gestyled door assets/<merk>/doc.css. */
+
+:root {
+  --ui-bar: 56px;
+  --ui-gutter: 16px;
+}
+
+/* De interface neemt de stijl over van het merk van de open offerte.
+   body[data-brand] wordt gezet in app.js. */
+body,
+body[data-brand="impens"] {
+  --ui-paper: var(--brand-paper);
+  --ui-ink: var(--brand-ink);
+  --ui-line: var(--brand-gray);
+  --ui-second: var(--brand-blue); /* secundaire tekst */
+  --ui-accent: var(--brand-blue); /* focus en interactie */
+  --ui-surface: var(--brand-sky);
+  --ui-hover-fg: var(--brand-lime);
+  --ui-primary-hover-bg: var(--brand-blue);
+  --ui-primary-hover-fg: var(--brand-lime);
+  --ui-total-bg: var(--brand-lime);
+  --ui-total-fg: var(--brand-ink);
+  --ui-font: var(--brand-font);
+  --ui-label-font: var(--brand-font);
+  --ui-title-weight: 400;
+  --ui-title-tracking: var(--brand-tracking-display);
+}
+
+body[data-brand="2x8"] {
+  --ui-paper: var(--x8-paper);
+  --ui-ink: var(--x8-ink);
+  --ui-line: color-mix(in srgb, var(--x8-ink) 16%, transparent);
+  --ui-second: var(--x8-ash);
+  --ui-accent: var(--x8-orange);
+  --ui-surface: var(--x8-orange-tint);
+  --ui-hover-fg: var(--x8-paper);
+  --ui-primary-hover-bg: var(--x8-orange);
+  --ui-primary-hover-fg: var(--x8-ink);
+  --ui-total-bg: var(--x8-ink);
+  --ui-total-fg: var(--x8-paper);
+  --ui-font: var(--x8-font);
+  --ui-label-font: var(--x8-mono);
+  --ui-title-weight: 800;
+  --ui-title-tracking: -0.03em;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+  font-family: var(--ui-font);
+  font-size: 14px;
+  line-height: 1.45;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---- Bar ---------------------------------------------------------------- */
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: var(--ui-bar);
+  padding: 0 var(--ui-gutter);
+  background: var(--ui-paper);
+  border-bottom: 1px solid var(--ui-ink);
+}
+
+.brand-switch {
+  display: flex;
+  align-self: stretch;
+}
+.brand-opt {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity 0.15s, border-color 0.15s;
+}
+.brand-opt:first-child {
+  padding-left: 0;
+}
+.brand-opt img {
+  display: block;
+  width: auto;
+}
+/* Optisch even groot: het impens-woordmerk heeft een onderkast-p. */
+.brand-opt[data-brand="impens"] img {
+  height: 21px;
+}
+.brand-opt[data-brand="2x8"] img {
+  height: 16px;
+}
+.brand-opt:hover {
+  opacity: 0.7;
+}
+.brand-opt[aria-pressed="true"] {
+  opacity: 1;
+  border-bottom-color: var(--ui-ink);
+}
+.brand-opt:focus-visible {
+  outline: 2px solid var(--ui-accent);
+  outline-offset: -2px;
+}
+
+.bar-status {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  color: var(--ui-second);
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bar-actions {
+  display: flex;
+  gap: 6px;
+}
+
+@media (max-width: 480px) {
+  .bar {
+    gap: 8px;
+  }
+  .bar-status {
+    display: none;
+  }
+  .brand-switch {
+    flex: 1;
+  }
+  .brand-opt {
+    padding: 0 8px;
+  }
+  .brand-opt[data-brand="impens"] img {
+    height: 17px;
+  }
+  .brand-opt[data-brand="2x8"] img {
+    height: 13px;
+  }
+  .bar-actions {
+    gap: 4px;
+  }
+  .bar-actions .btn {
+    padding: 0 8px;
+    font-size: 11px;
+  }
+}
+
+/* ---- Buttons ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--ui-ink);
+  border-radius: 0;
+  background: transparent;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn:hover {
+  background: var(--ui-ink);
+  color: var(--ui-hover-fg);
+}
+.btn:focus-visible,
+.chip:focus-visible,
+.tab:focus-visible,
+.icon-btn:focus-visible {
+  outline: 2px solid var(--ui-accent);
+  outline-offset: 2px;
+}
+.btn-primary {
+  background: var(--ui-ink);
+  color: var(--ui-paper);
+}
+.btn-primary:hover {
+  background: var(--ui-primary-hover-bg);
+  border-color: var(--ui-primary-hover-bg);
+  color: var(--ui-primary-hover-fg);
+}
+.btn-block {
+  width: 100%;
+  margin-top: 12px;
+}
+.btn[disabled] {
+  border-color: var(--ui-line);
+  color: color-mix(in srgb, var(--ui-ink) 45%, transparent);
+  cursor: not-allowed;
+  background: transparent;
+}
+
+/* ---- Tabs (mobiel) ------------------------------------------------------ */
+
+.tabs {
+  position: sticky;
+  top: var(--ui-bar);
+  z-index: 15;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--ui-paper);
+  border-bottom: 1px solid var(--ui-line);
+}
+.tab {
+  height: 44px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab.is-active {
+  border-bottom-color: var(--ui-ink);
+  font-weight: 700;
+}
+
+/* ---- Layout ------------------------------------------------------------- */
+
+.layout[data-view="form"] .pane-preview,
+.layout[data-view="preview"] .pane-form {
+  display: none;
+}
+
+.pane-form {
+  padding: 8px var(--ui-gutter) 64px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.pane-preview {
+  padding: 16px var(--ui-gutter) 48px;
+  background: color-mix(in srgb, var(--ui-line) 55%, var(--ui-paper));
+  min-height: calc(100dvh - var(--ui-bar) - 45px);
+}
+
+.sheet-scaler {
+  margin: 0 auto;
+  transform-origin: top left;
+}
+
+@media (min-width: 1024px) {
+  .tabs {
+    display: none;
+  }
+  .layout,
+  .layout[data-view] {
+    display: grid;
+    grid-template-columns: minmax(400px, 480px) 1fr;
+    align-items: start;
+  }
+  .layout[data-view] .pane-form,
+  .layout[data-view] .pane-preview {
+    display: block;
+  }
+  .pane-form {
+    max-width: none;
+    margin: 0;
+    border-right: 1px solid var(--ui-line);
+    padding: 8px 24px 80px;
+  }
+  .pane-preview {
+    position: sticky;
+    top: var(--ui-bar);
+    height: calc(100dvh - var(--ui-bar));
+    overflow: auto;
+    padding: 32px;
+  }
+}
+
+/* ---- Formulier ---------------------------------------------------------- */
+
+.fs {
+  padding: 24px 0 8px;
+  border-bottom: 1px solid var(--ui-line);
+}
+.fs:last-child {
+  border-bottom: 0;
+}
+.fs-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: var(--ui-title-weight);
+  letter-spacing: var(--ui-title-tracking);
+}
+body[data-brand="impens"] .fs-head {
+  word-spacing: var(--brand-word-spacing);
+}
+.fs-num {
+  font-family: var(--ui-label-font);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+body[data-brand="2x8"] .fs-num {
+  font-size: 12px;
+  font-weight: 500;
+}
+.btn,
+.tab,
+.fs-label,
+.f > span:first-child,
+.line-head,
+.line-nums label,
+.line-total,
+.icon-btn,
+.bar-status,
+.drawer-new p,
+.a-num {
+  font-family: var(--ui-label-font);
+}
+body[data-brand="2x8"] .f > span:first-child,
+body[data-brand="2x8"] .fs-label,
+body[data-brand="2x8"] .line-nums label {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.archive-tag {
+  font-family: var(--ui-label-font);
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--ui-second);
+}
+.fs-num {
+  color: var(--ui-second);
+}
+.fs-label {
+  margin: 0 0 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 16px;
+}
+@media (min-width: 480px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.f {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 14px;
+  min-width: 0;
+}
+.f > span:first-child {
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.f-hint {
+  font-style: normal;
+  text-transform: none;
+  color: var(--ui-second);
+}
+
+.f input,
+.f select,
+.f textarea,
+.line input,
+.line select,
+.line textarea {
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--ui-line);
+  border-radius: 0;
+  background: transparent;
+  font-size: 16px; /* geen zoom op iOS */
+  outline: none;
+  transition: border-color 0.15s;
+}
+.f textarea,
+.line textarea {
+  resize: vertical;
+  field-sizing: content;
+  min-height: 64px;
+  line-height: 1.4;
+}
+.f input:focus,
+.f select:focus,
+.f textarea:focus,
+.line input:focus,
+.line select:focus,
+.line textarea:focus {
+  border-bottom-color: var(--ui-accent);
+}
+.f input[readonly] {
+  color: color-mix(in srgb, var(--ui-ink) 60%, transparent);
+}
+.f select,
+.line select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 9px) 50%, calc(100% - 5px) 50%;
+  background-size: 4px 4px;
+  background-repeat: no-repeat;
+  padding-right: 20px;
+}
+
+.f-suffix {
+  display: flex;
+  align-items: baseline;
+  border-bottom: 1px solid var(--ui-line);
+}
+.f-suffix:focus-within {
+  border-bottom-color: var(--ui-accent);
+}
+.f .f-suffix input {
+  border-bottom: 0;
+}
+.f-suffix i {
+  font-style: normal;
+  font-size: 12px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0 16px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--ui-ink);
+}
+
+/* ---- Snelkeuze ---------------------------------------------------------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.chip {
+  display: inline-flex;
+  gap: 8px;
+  min-height: 36px;
+  align-items: center;
+  padding: 0 10px;
+  border: 1px solid var(--ui-line);
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.chip:hover {
+  background: var(--ui-surface);
+  border-color: var(--ui-surface);
+}
+.chip b {
+  font-weight: 400;
+  color: var(--ui-second);
+}
+
+/* ---- Lijnen ------------------------------------------------------------- */
+
+.lines {
+  counter-reset: line;
+}
+.line {
+  padding: 16px 0 4px;
+  border-bottom: 1px solid var(--ui-ink);
+}
+.line.is-optional {
+  border-bottom-style: dashed;
+}
+.line-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+.line-idx {
+  color: var(--ui-second);
+}
+.line-head .check {
+  margin: 0;
+}
+.line-tools {
+  display: flex;
+  margin-left: auto;
+}
+.icon-btn {
+  min-width: 36px;
+  min-height: 36px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.icon-btn:hover {
+  background: var(--ui-surface);
+}
+.icon-btn[disabled] {
+  opacity: 0.3;
+  cursor: default;
+  background: transparent;
+}
+
+.line-nums {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  column-gap: 12px;
+}
+.line-nums label {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+@media (min-width: 480px) {
+  .line-nums {
+    grid-template-columns: 0.7fr 1fr 1.2fr 0.8fr;
+  }
+}
+.line-total {
+  padding: 10px 0 8px;
+  text-align: right;
+  font-size: 13px;
+}
+.line-total span {
+  color: var(--ui-second);
+  margin-right: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+/* ---- Totalen in het formulier ------------------------------------------- */
+
+.sum {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin: 20px 0 12px;
+  font-size: 13px;
+}
+.sum dt,
+.sum dd {
+  margin: 0;
+  padding: 4px 0;
+}
+.sum dd {
+  text-align: right;
+}
+.sum .sum-total {
+  margin-top: 6px;
+  padding: 8px;
+  background: var(--ui-total-bg);
+  color: var(--ui-total-fg);
+  font-weight: 700;
+}
+.sum dt.sum-total {
+  padding-left: 8px;
+}
+
+/* ---- Archief ------------------------------------------------------------ */
+
+.drawer {
+  width: 100%;
+  max-width: 100%;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+}
+.drawer[open] {
+  display: flex;
+  flex-direction: column;
+}
+.drawer::backdrop {
+  background: color-mix(in srgb, var(--ui-ink) 40%, transparent);
+}
+@media (min-width: 720px) {
+  .drawer {
+    width: 460px;
+    margin-left: auto;
+    border-left: 1px solid var(--ui-ink);
+  }
+}
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--ui-bar);
+  padding: 0 var(--ui-gutter);
+  border-bottom: 1px solid var(--ui-ink);
+}
+.drawer-head h2 {
+  margin: 0;
+  font-size: 16px;
+}
+.drawer-new {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 16px var(--ui-gutter);
+  border-bottom: 1px solid var(--ui-line);
+}
+.drawer-new p {
+  width: 100%;
+  margin: 0 0 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.archive-list {
+  flex: 1;
+  overflow: auto;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.archive-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 14px var(--ui-gutter);
+  border-bottom: 1px solid var(--ui-line);
+  font-size: 12px;
+}
+.archive-item.is-current {
+  background: var(--ui-surface);
+}
+.archive-open {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.archive-open:hover .a-client {
+  text-decoration: underline;
+}
+.a-num {
+  color: var(--ui-second);
+}
+.a-client {
+  font-size: 14px;
+}
+.a-total {
+  text-align: right;
+}
+.a-meta {
+  color: color-mix(in srgb, var(--ui-ink) 65%, transparent);
+}
+.archive-tools {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+.archive-tools .icon-btn {
+  padding: 0 8px;
+  border: 1px solid var(--ui-line);
+  min-height: 30px;
+}
+.archive-empty {
+  padding: 24px var(--ui-gutter);
+  font-size: 12px;
+}
+.drawer-foot {
+  display: flex;
+  gap: 6px;
+  padding: 12px var(--ui-gutter) calc(12px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--ui-ink);
+}
+
+/* ---- Print: enkel het document ------------------------------------------ */
+
+@media print {
+  .bar,
+  .tabs,
+  .pane-form,
+  .drawer {
+    display: none !important;
+  }
+  body {
+    background: none;
+  }
+  .layout,
+  .layout[data-view] {
+    display: block;
+  }
+  .layout[data-view] .pane-preview {
+    display: block;
+    position: static;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    padding: 0;
+    background: none;
+  }
+  .sheet-scaler {
+    transform: none !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+  }
+}

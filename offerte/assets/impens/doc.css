@@ -1,0 +1,317 @@
+/* IMPENS: offertedocument op A4.
+   Schermpreview en print delen dezelfde markup. In print herhalen
+   thead en tfoot als marge op elke pagina, de footer staat fixed. */
+
+.doc[data-brand="impens"] {
+  --d-paper: var(--brand-paper);
+  --d-ink: var(--brand-ink);
+  --d-line: var(--brand-gray);
+  --d-second: var(--brand-blue);
+  --d-mark: var(--brand-lime);
+  --d-x: 18mm; /* zijmarge */
+  --d-top: 14mm;
+  --d-bottom: 29mm; /* ruimte voor de footer */
+  --d-cols: 8mm 1fr 20mm 24mm 10mm 25mm;
+
+  position: relative;
+  width: 210mm;
+  min-height: 297mm;
+  background: var(--d-paper);
+  color: var(--d-ink);
+  font-family: var(--brand-font);
+  font-size: 8.5pt;
+  line-height: 1.5;
+  box-shadow: 0 1px 0 var(--d-line), 0 18px 40px -24px color-mix(in srgb, var(--d-ink) 45%, transparent);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.doc[data-brand="impens"] * {
+  box-sizing: border-box;
+}
+
+.doc[data-brand="impens"] h1,
+.doc[data-brand="impens"] h2,
+.doc[data-brand="impens"] h3,
+.doc[data-brand="impens"] p,
+.doc[data-brand="impens"] dl,
+.doc[data-brand="impens"] dd {
+  margin: 0;
+}
+
+.doc[data-brand="impens"] .d-frame {
+  width: 100%;
+  border-collapse: collapse;
+}
+.doc[data-brand="impens"] .d-frame td {
+  padding: 0;
+}
+.doc[data-brand="impens"] .d-space-top {
+  height: var(--d-top);
+}
+.doc[data-brand="impens"] .d-space-bottom {
+  height: var(--d-bottom);
+}
+.doc[data-brand="impens"] .d-frame td.d-body {
+  padding: 0 var(--d-x);
+  vertical-align: top;
+}
+
+/* ---- Kop ---------------------------------------------------------------- */
+
+.doc[data-brand="impens"] .d-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 5mm;
+  margin: 0 calc(var(--d-x) * -1);
+  padding-left: var(--d-x);
+  padding-right: var(--d-x);
+  border-bottom: 0.25mm solid var(--d-ink);
+}
+.doc[data-brand="impens"] .d-logo {
+  display: block;
+  height: 10mm;
+  width: auto;
+}
+.doc[data-brand="impens"] .d-docname {
+  font-size: 22pt;
+  line-height: 1;
+  letter-spacing: var(--brand-tracking-display);
+}
+
+/* ---- Spec en partijen --------------------------------------------------- */
+
+.doc[data-brand="impens"] .d-meta {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 6mm;
+  padding: 5mm 0 0;
+}
+.doc[data-brand="impens"] .d-spec {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 3mm;
+  align-content: start;
+}
+.doc[data-brand="impens"] .d-spec dt,
+.doc[data-brand="impens"] .d-party h3,
+.doc[data-brand="impens"] .d-text h3,
+.doc[data-brand="impens"] .d-sign h3,
+.doc[data-brand="impens"] .d-row-head {
+  font-size: 7pt;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--d-second);
+}
+.doc[data-brand="impens"] .d-spec dt {
+  line-height: calc(8.5pt * 1.5);
+}
+.doc[data-brand="impens"] .d-spec dt::after {
+  content: " :";
+}
+.doc[data-brand="impens"] .d-party h3 {
+  margin-bottom: 1mm;
+}
+.doc[data-brand="impens"] .d-party p {
+  overflow-wrap: anywhere;
+}
+.doc[data-brand="impens"] .d-empty {
+  color: color-mix(in srgb, var(--d-ink) 40%, transparent);
+}
+
+/* ---- Onderwerp ---------------------------------------------------------- */
+
+.doc[data-brand="impens"] .d-subject {
+  margin: 11mm 0 6mm;
+  max-width: 150mm;
+  font-size: 24pt;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: var(--brand-tracking-display);
+  word-spacing: var(--brand-word-spacing);
+  text-wrap: balance;
+}
+
+/* ---- Lijnen ------------------------------------------------------------- */
+
+.doc[data-brand="impens"] .d-row {
+  display: grid;
+  grid-template-columns: var(--d-cols);
+  column-gap: 2mm;
+  padding: 2.2mm 0;
+  border-bottom: 0.2mm solid var(--d-line);
+  break-inside: avoid;
+}
+.doc[data-brand="impens"] .d-row-head {
+  padding: 0 0 1.6mm;
+  border-bottom: 0.25mm solid var(--d-ink);
+}
+.doc[data-brand="impens"] .d-idx {
+  color: var(--d-second);
+}
+.doc[data-brand="impens"] .d-desc small {
+  display: block;
+  font-size: 7.5pt;
+  color: var(--d-second);
+  white-space: pre-line;
+}
+.doc[data-brand="impens"] .d-qty,
+.doc[data-brand="impens"] .d-price,
+.doc[data-brand="impens"] .d-vat,
+.doc[data-brand="impens"] .d-amt {
+  text-align: right;
+  white-space: nowrap;
+}
+.doc[data-brand="impens"] .d-noline {
+  padding: 2.6mm 0;
+  border-top: 0.25mm solid var(--d-ink);
+  border-bottom: 0.2mm solid var(--d-line);
+}
+
+/* ---- Totalen ------------------------------------------------------------ */
+
+.doc[data-brand="impens"] .d-totals {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4mm;
+  break-inside: avoid;
+}
+.doc[data-brand="impens"] .d-totals dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: 85mm;
+}
+.doc[data-brand="impens"] .d-totals dt,
+.doc[data-brand="impens"] .d-totals dd {
+  padding: 1.2mm 0;
+}
+.doc[data-brand="impens"] .d-totals dt small {
+  color: var(--d-second);
+  font-size: 7pt;
+}
+.doc[data-brand="impens"] .d-totals dd {
+  text-align: right;
+  white-space: nowrap;
+}
+.doc[data-brand="impens"] .d-totals .d-total {
+  margin-top: 2mm;
+  padding: 2.4mm 0;
+  border-top: 0.25mm solid var(--d-ink);
+  background: var(--d-mark);
+  font-size: 11pt;
+  font-weight: 700;
+}
+.doc[data-brand="impens"] .d-totals dt.d-total {
+  padding-left: 2.4mm;
+}
+.doc[data-brand="impens"] .d-totals dd.d-total {
+  padding-right: 2.4mm;
+}
+
+/* ---- Opties ------------------------------------------------------------- */
+
+.doc[data-brand="impens"] .d-options {
+  margin-top: 7mm;
+}
+.doc[data-brand="impens"] .d-h2 {
+  margin-bottom: 4mm;
+  font-size: 13pt;
+  font-weight: 400;
+  letter-spacing: var(--brand-tracking-display);
+  break-after: avoid;
+}
+.doc[data-brand="impens"] .d-h2 small {
+  display: block;
+  margin-top: 1mm;
+  font-size: 7.5pt;
+  letter-spacing: 0;
+  color: var(--d-second);
+}
+
+/* ---- Opmerkingen, voorwaarden, voor akkoord ---------------------------- */
+
+.doc[data-brand="impens"] .d-close {
+  display: grid;
+  grid-template-columns: 1fr 62mm;
+  gap: 10mm;
+  margin-top: 7mm;
+  padding-top: 4mm;
+  border-top: 0.2mm solid var(--d-line);
+  break-inside: avoid;
+}
+.doc[data-brand="impens"] .d-text {
+  display: grid;
+  gap: 4mm;
+  align-content: start;
+}
+.doc[data-brand="impens"] .d-close > .d-text:only-child {
+  grid-column: 1 / -1;
+  max-width: 120mm;
+}
+.doc[data-brand="impens"] .d-text h3,
+.doc[data-brand="impens"] .d-sign h3 {
+  margin-bottom: 1.5mm;
+}
+.doc[data-brand="impens"] .d-text p {
+  font-size: 7.5pt;
+  white-space: pre-line;
+}
+
+.doc[data-brand="impens"] .d-sign {
+  display: flex;
+  flex-direction: column;
+}
+.doc[data-brand="impens"] .d-sign span {
+  display: flex;
+  align-items: flex-end;
+  min-height: 7.5mm;
+  padding-bottom: 0.8mm;
+  border-bottom: 0.25mm solid var(--d-ink);
+  font-size: 7pt;
+  color: var(--d-second);
+  text-transform: uppercase;
+}
+.doc[data-brand="impens"] .d-sign .d-sign-big {
+  min-height: 13mm;
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.doc[data-brand="impens"] .d-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1.15fr 1.15fr 1fr 1fr;
+  gap: 4mm;
+  padding: 4mm var(--d-x) 7mm;
+  border-top: 0.25mm solid var(--d-ink);
+  background: var(--d-paper);
+  font-size: 6.5pt;
+  line-height: 1.5;
+}
+
+/* ---- Print -------------------------------------------------------------- */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html:has(.doc[data-brand="impens"]),
+  html:has(.doc[data-brand="impens"]) body {
+    background: var(--brand-paper);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .doc[data-brand="impens"] {
+    width: auto;
+    min-height: 0;
+    box-shadow: none;
+  }
+  .doc[data-brand="impens"] .d-foot {
+    position: fixed;
+  }
+}

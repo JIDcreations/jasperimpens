@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Offertes</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%232e2e2e'/%3E%3Ccircle cx='23' cy='23' r='4' fill='%23eeff9e'/%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="assets/impens/theme.css" />
+    <link rel="stylesheet" href="app/app.css" />
+    <link rel="stylesheet" href="assets/impens/doc.css" />
+    <link rel="stylesheet" href="assets/2x8/theme.css" />
+    <link rel="stylesheet" href="assets/2x8/doc.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <div class="brand-switch" id="brandSwitch" role="group" aria-label="Merk"></div>
+      <div class="bar-status" id="status" aria-live="polite"></div>
+      <div class="bar-actions">
+        <button class="btn" type="button" data-act="new">Nieuw</button>
+        <button class="btn" type="button" data-act="archive">Archief</button>
+        <button class="btn btn-primary" type="button" data-act="print">PDF</button>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Weergave">
+      <button type="button" class="tab is-active" data-tab="form">Invullen</button>
+      <button type="button" class="tab" data-tab="preview">Preview</button>
+    </nav>
+
+    <main class="layout" data-view="form">
+      <form class="pane-form" id="form" autocomplete="off" novalidate>
+        <section class="fs">
+          <h2 class="fs-head"><span class="fs-num">01</span> Offerte</h2>
+          <div class="grid-2">
+            <label class="f"><span>Nummer</span><input data-field="number" /></label>
+            <label class="f"><span>Datum</span><input type="date" data-field="date" /></label>
+            <label class="f">
+              <span>Geldig <em class="f-hint" id="validUntil"></em></span>
+              <span class="f-suffix"><input data-field="validDays" inputmode="numeric" /><i>dagen</i></span>
+            </label>
+          </div>
+          <label class="f" id="issuerField" hidden>
+            <span>Facturerende partij</span>
+            <select data-field="issuer"></select>
+          </label>
+          <label class="f"><span>Onderwerp</span><input data-field="subject" placeholder="Website met meerdere pagina's" /></label>
+        </section>
+
+        <section class="fs">
+          <h2 class="fs-head"><span class="fs-num">02</span> Klant</h2>
+          <div class="grid-2">
+            <label class="f"><span>Bedrijf</span><input data-field="client.company" /></label>
+            <label class="f"><span>Contactpersoon</span><input data-field="client.name" /></label>
+          </div>
+          <label class="f"><span>Straat en nummer</span><input data-field="client.street" /></label>
+          <div class="grid-2">
+            <label class="f"><span>Postcode en gemeente</span><input data-field="client.city" /></label>
+            <label class="f"><span>Land</span><input data-field="client.country" placeholder="België" /></label>
+          </div>
+          <div class="grid-2">
+            <label class="f"><span>Btw-nummer</span><input data-field="client.vat" placeholder="BE0123.456.789" /></label>
+            <label class="f"><span>E-mail</span><input type="email" data-field="client.email" /></label>
+          </div>
+        </section>
+
+        <section class="fs">
+          <h2 class="fs-head"><span class="fs-num">03</span> Lijnen</h2>
+          <p class="fs-label">Snelkeuze</p>
+          <div class="chips" id="services"></div>
+          <div class="lines" id="lines"></div>
+          <button class="btn btn-block" type="button" data-act="add-line">Lijn toevoegen</button>
+          <dl class="sum" id="sum"></dl>
+        </section>
+
+        <section class="fs">
+          <h2 class="fs-head"><span class="fs-num">04</span> Opmerkingen</h2>
+          <label class="f"><span class="sr">Opmerkingen</span><textarea data-field="notes" rows="3"></textarea></label>
+        </section>
+
+        <section class="fs">
+          <h2 class="fs-head"><span class="fs-num">05</span> Voorwaarden</h2>
+          <label class="f"><span class="sr">Voorwaarden</span><textarea data-field="terms" rows="5"></textarea></label>
+          <label class="check"><input type="checkbox" data-field="showSignature" /> Blok voor akkoord tonen</label>
+        </section>
+      </form>
+
+      <section class="pane-preview" aria-label="Preview">
+        <div class="sheet-scaler" id="scaler">
+          <article class="doc" id="doc"></article>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="drawer" id="archive" aria-labelledby="archiveTitle">
+      <div class="drawer-head">
+        <h2 id="archiveTitle">Archief</h2>
+        <button class="btn" type="button" data-act="close">Sluit</button>
+      </div>
+      <div class="drawer-new" id="newBrands"></div>
+      <ul class="archive-list" id="archiveList"></ul>
+      <div class="drawer-foot">
+        <button class="btn" type="button" data-act="export">Export JSON</button>
+        <label class="btn">Import JSON<input type="file" accept="application/json,.json" id="importFile" hidden /></label>
+      </div>
+    </dialog>
+
+    <datalist id="units">
+      <option value="stuk"></option>
+      <option value="uur"></option>
+      <option value="dag"></option>
+      <option value="maand"></option>
+      <option value="jaar"></option>
+      <option value="forfait"></option>
+      <option value="op maat"></option>
+    </datalist>
+
+    <script src="config/entities.js"></script>
+    <script src="config/impens.js"></script>
+    <script src="config/2x8.js"></script>
+    <script src="assets/impens/template.js"></script>
+    <script src="assets/2x8/template.js"></script>
+    <script src="app/app.js"></script>
+  </body>
+</html>

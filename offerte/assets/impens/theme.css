@@ -1,0 +1,53 @@
+/* IMPENS brand theme. Bron: impens_branding/brandguide/ji.pdf
+   Zes kleuren, één lettertype. Nergens anders hex-waarden of fontnamen.
+
+   Hoe de kleuren samengaan (zoals op jasperimpens.be):
+   paper  achtergrond. ink voor tekst, blue voor interactie en secundaire tekst.
+   blue   links, actieve staten. Tekst op blue is lime.
+   ink    donkere vlakken. Tekst op ink is lime of paper.
+   lime   nooit als tekst op paper. Wel als vlak onder ink.
+   sky    rustig vlak op paper: hover, tags.
+   gray   lijnen, randen, uitgeschakeld. */
+
+@font-face {
+  font-family: "Space Mono";
+  src: url(fonts/SpaceMono-Regular.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url(fonts/SpaceMono-Italic.ttf) format("truetype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url(fonts/SpaceMono-Bold.ttf) format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Space Mono";
+  src: url(fonts/SpaceMono-BoldItalic.ttf) format("truetype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --brand-paper: #f6f6f6;
+  --brand-sky: #c3d5e9;
+  --brand-gray: #dbdbdb;
+  --brand-lime: #eeff9e;
+  --brand-blue: #4466b6;
+  --brand-ink: #2e2e2e;
+
+  --brand-font: "Space Mono", ui-monospace, monospace;
+  --brand-tracking-display: -0.04em;
+  --brand-tracking-title: -0.02em;
+  --brand-word-spacing: -0.3em;
+}

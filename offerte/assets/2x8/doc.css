@@ -1,0 +1,356 @@
+/* 2x8: offertedocument op A4.
+   Zelfde opbouw als IMPENS: thead en tfoot herhalen als marge per pagina,
+   de footer staat fixed in print. */
+
+.doc[data-brand="2x8"] {
+  --x-paper: var(--x8-paper);
+  --x-ink: var(--x8-ink);
+  --x-ash: var(--x8-ash);
+  --x-orange: var(--x8-orange);
+  --x-wash: color-mix(in srgb, var(--x8-ink) 14%, transparent);
+  --x-x: 18mm;
+  --x-top: 14mm;
+  --x-bottom: 31mm;
+  --x-cols: 8mm 1fr 20mm 24mm 10mm 25mm;
+
+  position: relative;
+  width: 210mm;
+  min-height: 297mm;
+  background: var(--x-paper);
+  color: var(--x-ink);
+  font-family: var(--x8-font);
+  font-size: 8.5pt;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  box-shadow: 0 18px 40px -24px color-mix(in srgb, var(--x8-ink) 45%, transparent);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.doc[data-brand="2x8"] * {
+  box-sizing: border-box;
+}
+.doc[data-brand="2x8"] h1,
+.doc[data-brand="2x8"] h2,
+.doc[data-brand="2x8"] h3,
+.doc[data-brand="2x8"] p,
+.doc[data-brand="2x8"] dl,
+.doc[data-brand="2x8"] dd {
+  margin: 0;
+}
+
+.doc[data-brand="2x8"] .x-frame {
+  width: 100%;
+  border-collapse: collapse;
+}
+.doc[data-brand="2x8"] .x-frame td {
+  padding: 0;
+}
+.doc[data-brand="2x8"] .x-frame td.x-body {
+  padding: 0 var(--x-x);
+  vertical-align: top;
+}
+.doc[data-brand="2x8"] .x-space-top {
+  height: var(--x-top);
+}
+.doc[data-brand="2x8"] .x-space-bottom {
+  height: var(--x-bottom);
+}
+
+/* Labels en cijfers: JetBrains Mono, zoals op 2x8.be */
+.doc[data-brand="2x8"] .x-label,
+.doc[data-brand="2x8"] .x-row-head,
+.doc[data-brand="2x8"] .x-sign span {
+  font-family: var(--x8-mono);
+  font-weight: 500;
+  font-size: 6.5pt;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--x-ash);
+}
+.doc[data-brand="2x8"] .x-num,
+.doc[data-brand="2x8"] .x-idx,
+.doc[data-brand="2x8"] .x-totals dd {
+  font-family: var(--x8-mono);
+  font-weight: 500;
+  font-size: 8pt;
+}
+
+/* ---- Kop: één zwarte balk met een oranje lijn eronder ------------------ */
+
+.doc[data-brand="2x8"] .x-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: calc(var(--x-top) * -1) calc(var(--x-x) * -1) 0;
+  padding: 7mm var(--x-x);
+  background: var(--x-ink);
+  border-bottom: 1.2mm solid var(--x-orange);
+}
+.doc[data-brand="2x8"] .x-logo {
+  display: block;
+  height: 6.5mm;
+  width: auto;
+}
+.doc[data-brand="2x8"] .x-band .x-label {
+  color: var(--x-paper);
+}
+
+.doc[data-brand="2x8"] .x-title {
+  padding: 11mm 0 5mm;
+  max-width: 174mm;
+  font-size: 27pt;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+.doc[data-brand="2x8"] .x-dot {
+  color: var(--x-orange);
+}
+
+/* ---- Meta --------------------------------------------------------------- */
+
+.doc[data-brand="2x8"] .x-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
+  gap: 6mm;
+  padding: 4mm 0 0;
+  border-top: 0.2mm solid var(--x-wash);
+}
+.doc[data-brand="2x8"] .x-meta .x-label {
+  margin-bottom: 0.8mm;
+}
+.doc[data-brand="2x8"] .x-meta p + .x-label {
+  margin-top: 2.5mm;
+}
+.doc[data-brand="2x8"] .x-meta p {
+  overflow-wrap: anywhere;
+}
+.doc[data-brand="2x8"] .x-empty {
+  color: var(--x-ash);
+}
+
+/* ---- Secties ------------------------------------------------------------ */
+
+.doc[data-brand="2x8"] .x-block {
+  margin-top: 6mm;
+}
+.doc[data-brand="2x8"] .x-h2 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 4mm;
+  margin-bottom: 3mm;
+  font-size: 12pt;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  break-after: avoid;
+}
+.doc[data-brand="2x8"] .x-h2 small {
+  flex-basis: 100%;
+  margin-top: 1mm;
+  font-size: 7.5pt;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--x-ash);
+}
+
+/* ---- Lijnen ------------------------------------------------------------- */
+
+.doc[data-brand="2x8"] .x-row {
+  display: grid;
+  grid-template-columns: var(--x-cols);
+  column-gap: 2mm;
+  align-items: baseline;
+  padding: 2.1mm 0;
+  border-bottom: 0.2mm solid var(--x-wash);
+  break-inside: avoid;
+}
+.doc[data-brand="2x8"] .x-row-head {
+  padding: 0 0 1.6mm;
+  border-bottom: 0.25mm solid var(--x-ink);
+}
+.doc[data-brand="2x8"] .x-row-head .x-num,
+.doc[data-brand="2x8"] .x-row-head .x-idx {
+  font-size: 6.5pt;
+}
+.doc[data-brand="2x8"] .x-idx {
+  color: var(--x-orange);
+}
+.doc[data-brand="2x8"] .x-row-head .x-idx {
+  color: var(--x-ash);
+}
+.doc[data-brand="2x8"] .x-desc b {
+  font-weight: 600;
+}
+.doc[data-brand="2x8"] .x-desc small {
+  display: block;
+  font-size: 7.5pt;
+  color: var(--x-ash);
+  white-space: pre-line;
+}
+.doc[data-brand="2x8"] .x-num {
+  text-align: right;
+  white-space: nowrap;
+}
+.doc[data-brand="2x8"] .x-noline {
+  padding: 2.4mm 0;
+  border-top: 0.25mm solid var(--x-ink);
+  border-bottom: 0.2mm solid var(--x-wash);
+}
+
+/* ---- Totalen ------------------------------------------------------------ */
+
+.doc[data-brand="2x8"] .x-totals {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 2mm;
+  break-inside: avoid;
+}
+.doc[data-brand="2x8"] .x-totals dl {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  width: 85mm;
+}
+.doc[data-brand="2x8"] .x-totals dt,
+.doc[data-brand="2x8"] .x-totals dd {
+  padding: 1mm 0;
+}
+.doc[data-brand="2x8"] .x-totals dt small {
+  color: var(--x-ash);
+  font-size: 7pt;
+}
+.doc[data-brand="2x8"] .x-totals dd {
+  text-align: right;
+  white-space: nowrap;
+}
+.doc[data-brand="2x8"] .x-totals .x-total {
+  margin-top: 2mm;
+  padding: 3.5mm 0 3mm;
+  background: var(--x8-orange-tint);
+  color: var(--x-ink);
+}
+.doc[data-brand="2x8"] .x-totals dt.x-total {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-left: 3.5mm;
+  border-left: 1.2mm solid var(--x-orange);
+  font-family: var(--x8-mono);
+  font-weight: 500;
+  font-size: 6.5pt;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.doc[data-brand="2x8"] .x-totals dt.x-total small {
+  color: var(--x-ash);
+  font-size: 6.5pt;
+}
+.doc[data-brand="2x8"] .x-totals dd.x-total {
+  padding-right: 3.5mm;
+  font-family: var(--x8-font);
+  font-size: 20pt;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* ---- Afspraken ---------------------------------------------------------- */
+
+.doc[data-brand="2x8"] .x-close {
+  break-inside: avoid;
+}
+.doc[data-brand="2x8"] .x-close-grid {
+  display: grid;
+  grid-template-columns: 1fr 62mm;
+  gap: 10mm;
+  padding-top: 3mm;
+  border-top: 0.25mm solid var(--x-ink);
+}
+.doc[data-brand="2x8"] .x-close-grid > .x-text:only-child {
+  grid-column: 1 / -1;
+  max-width: 120mm;
+}
+.doc[data-brand="2x8"] .x-text {
+  display: grid;
+  gap: 3.5mm;
+  align-content: start;
+}
+.doc[data-brand="2x8"] .x-text .x-label,
+.doc[data-brand="2x8"] .x-sign .x-label {
+  margin-bottom: 1.2mm;
+}
+.doc[data-brand="2x8"] .x-text p {
+  font-size: 7.5pt;
+  white-space: pre-line;
+}
+.doc[data-brand="2x8"] .x-sign {
+  display: flex;
+  flex-direction: column;
+}
+.doc[data-brand="2x8"] .x-sign span {
+  display: flex;
+  align-items: flex-end;
+  min-height: 7.5mm;
+  padding-bottom: 0.8mm;
+  border-bottom: 0.25mm solid var(--x-ink);
+}
+.doc[data-brand="2x8"] .x-sign .x-sign-big {
+  min-height: 13mm;
+}
+
+/* ---- Footer ------------------------------------------------------------- */
+
+.doc[data-brand="2x8"] .x-foot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1.15fr 1.15fr 1fr 1fr;
+  gap: 1.5mm 4mm;
+  margin: 0 var(--x-x);
+  padding: 3mm 0 6mm;
+  border-top: 0.25mm solid var(--x-ink);
+  background: var(--x-paper);
+  font-family: var(--x8-mono);
+  font-weight: 500;
+  font-size: 6pt;
+  line-height: 1.55;
+  color: var(--x-ash);
+}
+.doc[data-brand="2x8"] .x-foot-note {
+  grid-column: 1 / -1;
+  color: var(--x-ink);
+}
+.doc[data-brand="2x8"] .x-missing {
+  grid-column: 1 / -1;
+  padding: 1.5mm 2mm;
+  background: var(--x8-orange-tint);
+  color: var(--x-ink);
+}
+
+/* ---- Print -------------------------------------------------------------- */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+  html:has(.doc[data-brand="2x8"]),
+  html:has(.doc[data-brand="2x8"]) body {
+    background: var(--x8-paper);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .doc[data-brand="2x8"] {
+    width: auto;
+    min-height: 0;
+    box-shadow: none;
+  }
+  .doc[data-brand="2x8"] .x-foot {
+    position: fixed;
+  }
+}
